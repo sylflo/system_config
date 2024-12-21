@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+
+  <object class="GtkOverlay" id="overlay">
+    <child>
+      <object class="GtkBox" id="main_box">
+        <property name="orientation">vertical</property>
+        <property name="margin-top">100</property>
+        <property name="margin-bottom">100</property>
+        <property name="hexpand">1</property>
+        <property name="vexpand">1</property>
+        <property name="css-classes">background</property>
+
+        <child>
+          <object class="GtkBox" id="center_box">
+            <property name="orientation">vertical</property>
+            <property name="spacing">0</property>
+            <property name="halign">center</property>
+            <property name="valign">fill</property>
+            <property name="vexpand">1</property>
+
+            <!-- Brightness Row -->
+            <child>
+              <object class="GtkBox" id="brightness_row">
+                <property name="orientation">vertical</property>
+                <property name="halign">center</property>
+                <property name="hexpand">1</property>
+                <property name="vexpand">0</property>
+                <property name="width-request">960</property>
+                <property name="css-classes">row-box</property>
+                <child>
+                  <object class="GtkBox">
+                    <property name="orientation">horizontal</property>
+                    <property name="spacing">20</property>
+                    <property name="hexpand">1</property>
+                    <property name="vexpand">1</property>
+                    <child>
+                      <object class="GtkBox">
+                        <property name="valign">fill</property>
+                        <property name="hexpand">0</property>
+                        <property name="vexpand">1</property>
+                        <property name="css-classes">icon-wrapper</property>
+                        <child>
+                          <object class="GtkLabel" id="brightness_icon">
+                            <property name="label">brightness_low</property>
+                            <property name="css-classes">material-icon</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label">Screen Brightness</property>
+                        <property name="halign">start</property>
+                        <property name="valign">center</property>
+                        <property name="hexpand">1</property>
+                        <property name="css-classes">label</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkRevealer" id="brightness_revealer">
+                        <property name="transition-type">slide-down</property>
+                        <property name="transition-duration">250</property>
+                        <child>
+                          <object class="GtkScale" id="brightness_slider">
+                            <property name="orientation">horizontal</property>
+                            <property name="adjustment">
+                              <object class="GtkAdjustment">
+                                <property name="lower">0</property>
+                                <property name="upper">100</property>
+                                <property name="step-increment">1</property>
+                                <property name="value">75</property>
+                              </object>
+                            </property>
+                            <property name="hexpand">1</property>
+                            <property name="css-classes">scale</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+            <!-- Sound Row -->
+            <child>
+              <object class="GtkBox" id="sound_row">
+                <property name="orientation">vertical</property>
+                <property name="halign">center</property>
+                <property name="hexpand">1</property>
+                <property name="vexpand">0</property>
+                <property name="width-request">960</property>
+                <property name="css-classes">row-box</property>
+                <child>
+                  <object class="GtkBox">
+                    <property name="orientation">horizontal</property>
+                    <property name="spacing">20</property>
+                    <property name="hexpand">1</property>
+                    <property name="vexpand">1</property>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label">volume_up</property>
+                        <property name="css-classes">material-icon</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label">Sound</property>
+                        <property name="css-classes">label</property>
+                        <property name="halign">start</property>
+                        <property name="valign">center</property>
+                        <property name="hexpand">1</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label">›</property>
+                        <property name="css-classes">right-label</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+            <!-- VPN Row -->
+            <child>
+              <object class="GtkBox" id="vpn_row">
+                <property name="orientation">vertical</property>
+                <property name="halign">center</property>
+                <property name="hexpand">1</property>
+                <property name="vexpand">0</property>
+                <property name="width-request">960</property>
+                <property name="css-classes">row-box</property>
+                <child>
+                  <object class="GtkBox">
+                    <property name="orientation">horizontal</property>
+                    <property name="spacing">20</property>
+                    <property name="hexpand">1</property>
+                    <property name="vexpand">1</property>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label">vpn_key</property>
+                        <property name="css-classes">material-icon</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label">VPN</property>
+                        <property name="css-classes">label</property>
+                        <property name="halign">start</property>
+                        <property name="valign">center</property>
+                        <property name="hexpand">1</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="vpn_status">
+                        <property name="label">Enabled</property>
+                        <property name="css-classes">right-label</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+            <!-- Bluetooth Row -->
+            <child>
+              <object class="GtkBox" id="bluetooth_row">
+                <property name="orientation">vertical</property>
+                <property name="halign">center</property>
+                <property name="hexpand">1</property>
+                <property name="vexpand">0</property>
+                <property name="width-request">960</property>
+                <property name="css-classes">row-box</property>
+                <child>
+                  <object class="GtkBox">
+                    <property name="orientation">horizontal</property>
+                    <property name="spacing">20</property>
+                    <property name="hexpand">1</property>
+                    <property name="vexpand">1</property>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label">bluetooth</property>
+                        <property name="css-classes">material-icon</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label">Bluetooth</property>
+                        <property name="css-classes">label</property>
+                        <property name="halign">start</property>
+                        <property name="valign">center</property>
+                        <property name="hexpand">1</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkSwitch" id="bt_toggle">
+                        <property name="active">True</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+            <!-- WiFi Row -->
+            <child>
+              <object class="GtkBox" id="wifi_row">
+                <property name="orientation">vertical</property>
+                <property name="halign">center</property>
+                <property name="hexpand">1</property>
+                <property name="vexpand">0</property>
+                <property name="width-request">960</property>
+                <property name="css-classes">row-box</property>
+                <child>
+                  <object class="GtkBox">
+                    <property name="orientation">horizontal</property>
+                    <property name="spacing">20</property>
+                    <property name="hexpand">1</property>
+                    <property name="vexpand">1</property>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label">wifi</property>
+                        <property name="css-classes">material-icon</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label">WiFi</property>
+                        <property name="css-classes">label</property>
+                        <property name="halign">start</property>
+                        <property name="valign">center</property>
+                        <property name="hexpand">1</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkSwitch" id="wifi_toggle">
+                        <property name="active">True</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

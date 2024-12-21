@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <object class="GtkBox" id="sound_page">
+    <property name="orientation">vertical</property>
+    <property name="spacing">40</property>
+    <property name="halign">center</property>
+    <property name="valign">center</property>
+    <property name="opacity">0.0</property>
+    <property name="visible">false</property>
+    <child>
+      <object class="GtkLabel">
+        <property name="label">⚙️ Sound Settings Page</property>
+        <property name="css-classes">label</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkButton" id="sound_back">
+        <property name="label">‹ Back</property>
+      </object>
+    </child>
+  </object>
+</interface>
