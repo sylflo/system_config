@@ -70,6 +70,10 @@
     ".local/bin/shutdown_steam_sunshine.sh".source = ../../dotfiles/scripts/shutdown_steam_sunshine.sh;
   };
 
+  services.swaync = {
+    enable = true;
+  };
+
   services.hypridle = {
     enable = false;
     settings = {
