@@ -72,6 +72,22 @@
 
   services.swaync = {
     enable = true;
+    settings = {
+      positionX = "right";
+      positionY = "top";
+      layer = "overlay";
+      control-center-layer = "top";
+      control-center-margin-top = 60;
+      control-center-margin-right = 24;
+      notification-icon-size = 56;
+      markup = true;
+      # --- auto-close timeouts (milliseconds) ---
+      timeout          = 5;  # default if urgency not specified
+      timeout-low      = 5;  # low urgency
+      timeout-normal   = 5;  # normal urgency
+      timeout-critical = 0;     # 0 = never auto-close (keep critical)
+    };
+    #style = ../../dotfiles/swaync-style.css;
   };
 
   services.hypridle = {
