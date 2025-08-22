@@ -49,7 +49,7 @@
         };
         work-laptop = mkSystem {
           hostname = "work-laptop";
-          homeConfig = ./common/home.nix;
+          homeConfig = ./hosts/work-laptop/home.nix;
         };
       };
   };
