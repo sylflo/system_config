@@ -67,4 +67,14 @@
     jack.enable = true;
   };
 
+  # Increase locked memory limit for audio production
+  security.pam.loginLimits = [
+    { domain = "@audio"; type = "-"; item = "memlock"; value = "unlimited"; }
+    { domain = "@audio"; type = "-"; item = "rtprio"; value = "99"; }
+    { domain = "@audio"; type = "-"; item = "nice"; value = "-19"; }
+  ];
+
+  # Add user to audio group
+  users.users.sylflo.extraGroups = [ "audio" ];
+
 }
