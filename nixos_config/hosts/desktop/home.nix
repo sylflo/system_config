@@ -70,4 +70,12 @@ in {
     ];
   };
 
+  # Audio production tools
+  home.packages = with pkgs; [
+    ardour        # Professional DAW
+    guitarix      # Guitar amp simulator and effects
+    calf          # Audio plugins (effects, EQ, compressors)
+    qjackctl      # JACK control GUI
+  ];
+
 }

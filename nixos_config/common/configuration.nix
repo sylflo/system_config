@@ -80,6 +80,7 @@
     htop
     acpi
     # Hardware/system specific
+    alsa-utils
     brightnessctl
     zfs
     wmctrl
