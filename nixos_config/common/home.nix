@@ -11,6 +11,7 @@
     parallel
     poetry
     rustup
+    inputs.claude-code-nix.packages.${pkgs.system}.default
     # Personal applications
     mpv
     anki-bin

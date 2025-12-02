@@ -15,9 +15,13 @@
       url = "github:levnikmyskin/hyprland-virtual-desktops?ref=v2.2.8";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    claude-code-nix = {
+      url = "github:sadjow/claude-code-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
    };
 
-  outputs = { self, nixpkgs, home-manager, hyprland-virtual-desktops, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, hyprland-virtual-desktops, claude-code-nix, ... }@inputs:
     let
       mkSystem = { hostname, homeConfig }:
         nixpkgs.lib.nixosSystem {
