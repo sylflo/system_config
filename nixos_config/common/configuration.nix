@@ -81,6 +81,7 @@
     acpi
     # Hardware/system specific
     alsa-utils
+    pavucontrol
     brightnessctl
     zfs
     wmctrl
