@@ -1,0 +1,36 @@
+/**
+ * Rofi Configuration
+ * Direct config file (not using home-manager)
+ */
+
+configuration {
+    /* Modi */
+    modi: "drun,run,window";
+    
+    /* Display settings */
+    show-icons: true;
+    icon-theme: "Papirus";
+    display-drun: " Apps";
+    display-run: " Run";
+    display-window: " Windows";
+    drun-display-format: "{name}";
+    window-format: "{w} · {c} · {t}";
+    
+    /* Behavior */
+    terminal: "alacritty";
+    sort: true;
+    matching: "fuzzy";
+    case-sensitive: false;
+    
+    /* Disable history */
+    disable-history: false;
+    
+    /* Sidebar mode */
+    sidebar-mode: false;
+    
+    /* Columns */
+    columns: 1;
+}
+
+/* Import the Shinkai theme */
+@theme "shinkai"

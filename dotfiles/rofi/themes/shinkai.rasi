@@ -1,0 +1,184 @@
+/**
+ * Shinkai-Inspired Rofi Theme
+ * Dreamy, colorful aesthetic inspired by Makoto Shinkai films
+ */
+
+* {
+    /* Color Palette */
+    bg-base:           #E8F4F8;
+    bg-transparent:    #E8F4F8DD;  /* 85% opacity */
+    bg-selected:       #A8D5E8;
+    
+    fg-primary:        #2B3E50;
+    fg-secondary:      #415A77;
+    fg-muted:          #6B7F95;
+    
+    accent-blue:       #5B9FD8;
+    accent-purple:     #7B68EE;
+    accent-pink:       #E94B7C;
+    accent-orange:     #FFB347;
+    
+    border-color:      #87CEEB;
+    border-active:     #5B9FD8;
+    
+    /* Transparency and effects */
+    background-color:  transparent;
+    text-color:        @fg-primary;
+    
+    /* Font */
+    font: "Inter 11";
+}
+
+/* Main window */
+window {
+    transparency:      "real";
+    background-color:  @bg-transparent;
+    border:            2px;
+    border-color:      @border-color;
+    border-radius:     16px;
+    width:             600px;
+    padding:           0px;
+    
+    /* Frosted glass effect */
+    /* Note: Hyprland will handle the blur via layerrule */
+}
+
+/* Main box containing everything */
+mainbox {
+    background-color:  transparent;
+    children:          [ inputbar, listview ];
+    spacing:           12px;
+    padding:           20px;
+}
+
+/* Input bar at the top */
+inputbar {
+    background-color:  @bg-base;
+    text-color:        @fg-primary;
+    border:            0px 0px 2px 0px;
+    border-color:      @border-color;
+    border-radius:     12px;
+    padding:           16px 20px;
+    spacing:           12px;
+    children:          [ prompt, entry ];
+}
+
+prompt {
+    background-color:  transparent;
+    text-color:        @accent-blue;
+    font:              "Inter Bold 12";
+}
+
+entry {
+    background-color:  transparent;
+    text-color:        @fg-primary;
+    placeholder:       "Search...";
+    placeholder-color: @fg-muted;
+}
+
+/* List of results */
+listview {
+    background-color:  transparent;
+    columns:           1;
+    lines:             8;
+    spacing:           8px;
+    cycle:             false;
+    dynamic:           true;
+    scrollbar:         true;
+    layout:            vertical;
+    fixed-height:      true;
+}
+
+/* Individual list items */
+element {
+    background-color:  transparent;
+    text-color:        @fg-primary;
+    border-radius:     10px;
+    padding:           12px 16px;
+    spacing:           12px;
+}
+
+element normal.normal {
+    background-color:  transparent;
+    text-color:        @fg-primary;
+}
+
+element normal.urgent {
+    background-color:  @accent-pink;
+    text-color:        @bg-base;
+}
+
+element normal.active {
+    background-color:  @accent-purple;
+    text-color:        @bg-base;
+}
+
+element selected.normal {
+    background-color:  @bg-selected;
+    text-color:        @fg-primary;
+    border:            2px;
+    border-color:      @border-active;
+}
+
+element selected.urgent {
+    background-color:  @accent-pink;
+    text-color:        @bg-base;
+}
+
+element selected.active {
+    background-color:  @accent-purple;
+    text-color:        @bg-base;
+}
+
+element alternate.normal {
+    background-color:  transparent;
+    text-color:        @fg-primary;
+}
+
+element-icon {
+    background-color:  transparent;
+    size:              32px;
+}
+
+element-text {
+    background-color:  transparent;
+    text-color:        inherit;
+    vertical-align:    0.5;
+}
+
+/* Scrollbar */
+scrollbar {
+    width:             4px;
+    border:            0;
+    handle-width:      4px;
+    handle-color:      @accent-blue;
+    background-color:  @bg-base;
+    border-radius:     8px;
+    padding:           0px;
+    margin:            0px 0px 0px 8px;
+}
+
+/* Messages (for errors, etc) */
+message {
+    background-color:  @bg-base;
+    border:            2px;
+    border-color:      @accent-orange;
+    border-radius:     12px;
+    padding:           12px;
+}
+
+textbox {
+    background-color:  transparent;
+    text-color:        @fg-primary;
+    padding:           8px;
+}
+
+/* Error message styling */
+error-message {
+    background-color:  @bg-base;
+    border:            2px;
+    border-color:      @accent-pink;
+    border-radius:     12px;
+    padding:           16px;
+}
+
