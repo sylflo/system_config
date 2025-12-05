@@ -27,6 +27,7 @@
     slurp
     alacritty
     wl-clipboard
+    socat
     # Other desktop tools
     ddcutil
     # User utilities
@@ -46,9 +47,13 @@
     extraConfig = ''
       source = ~/.config/hypr/hyprland-source.conf
 
+      # Wallpaper daemon
+      exec-once = swww init
+      exec-once = ~/.local/bin/workspace-wallpaper.sh
+
       plugin {
         virtual-desktops {
-          names = 1:coding, 2:internet, 3:mail and chats 
+          names = 1:coding, 2:internet, 3:mail and chats
           cycleworkspaces = 1
           rememberlayout = size
           notifyinit = 0
@@ -73,9 +78,14 @@
     # Rofi configuration
     ".config/rofi/config.rasi".source = ../../dotfiles/rofi/config.rasi;
     ".config/rofi/themes/shinkai.rasi".source = ../../dotfiles/rofi/themes/shinkai.rasi;
-    
+
+    # Scripts
     ".local/bin/start_steam_sunshine.sh".source = ../../dotfiles/scripts/start_steam_sunshine.sh;
     ".local/bin/shutdown_steam_sunshine.sh".source = ../../dotfiles/scripts/shutdown_steam_sunshine.sh;
+    ".local/bin/workspace-wallpaper.sh" = {
+      source = ../../dotfiles/scripts/workspace-wallpaper.sh;
+      executable = true;
+    };
   };
 
   services.swaync = {
