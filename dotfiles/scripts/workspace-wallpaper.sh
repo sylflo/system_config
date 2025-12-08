@@ -7,10 +7,10 @@ set -euo pipefail
 # Wallpaper directory
 readonly WALLPAPER_DIR="$HOME/Pictures/Wallpapers/Themes/Makoto_Shinkai"
 
-# Transition settings
-readonly TRANSITION_TYPE="random"  # Options: simple, fade, wipe, wave, grow, center, outer, random
-readonly TRANSITION_FPS=60
-readonly TRANSITION_DURATION=2
+# Transition settings - Shinkai aesthetic
+readonly TRANSITION_TYPE="fade"    # Smooth dreamy fade like Shinkai scene transitions
+readonly TRANSITION_FPS=50         # Slightly slower for dreamy effect
+readonly TRANSITION_DURATION=3     # 3 seconds to match workspace animation timing
 
 # Function to switch wallpaper
 switch_wallpaper() {
