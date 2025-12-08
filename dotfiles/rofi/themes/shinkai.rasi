@@ -6,7 +6,7 @@
 * {
     /* Color Palette */
     bg-base:           #E8F4F8;
-    bg-transparent:    #E8F4F8DD;  /* 85% opacity */
+    bg-transparent:    #E8F4F81A;  /* 10% opacity - very transparent to test blur */
     bg-selected:       #A8D5E8;
     
     fg-primary:        #2B3E50;
