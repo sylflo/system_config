@@ -79,6 +79,17 @@
     wget
     htop
     acpi
+    # Network diagnostic tools
+    whois
+    bind          # dig, nslookup, host
+    ldns          # drill
+    netcat-gnu    # netcat
+    traceroute
+    mtr           # modern traceroute
+    tcpdump
+    nmap
+    curl
+    inetutils     # telnet, ftp, etc.
     # Hardware/system specific
     alsa-utils
     pavucontrol

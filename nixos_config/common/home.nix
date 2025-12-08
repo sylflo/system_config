@@ -6,6 +6,7 @@
 
   home.packages = with pkgs; [
     # Development tools
+    neovim
     ansible
     python3
     parallel
