@@ -25,7 +25,6 @@
     waypaper
     grim
     slurp
-    alacritty
     wl-clipboard
     socat
     # Other desktop tools
@@ -222,6 +221,19 @@
     ];
   };
 
+  # Alacritty terminal with transparency for blur effects
+  programs.alacritty = {
+    enable = true;
+    settings = {
+      window = {
+        opacity = 0.90;  # 90% opaque - subtle transparency for daily use
+        padding = {
+          x = 10;
+          y = 10;
+        };
+      };
+    };
+  };
 
   # Enable Zsh as the shell
   programs.zsh = { enable = true; oh-my-zsh = {
