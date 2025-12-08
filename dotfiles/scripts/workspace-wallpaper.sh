@@ -5,7 +5,7 @@
 set -euo pipefail
 
 # Wallpaper directory
-readonly WALLPAPER_DIR="/home/sylflo/Projects/system_config/dotfiles/wallpapers"
+readonly WALLPAPER_DIR="$HOME/Pictures/Wallpapers/Themes/Makoto_Shinkai"
 
 # Transition settings
 readonly TRANSITION_TYPE="random"  # Options: simple, fade, wipe, wave, grow, center, outer, random
@@ -26,7 +26,7 @@ switch_wallpaper() {
 
   # Get all wallpapers as an array
   local wallpapers=()
-  mapfile -t wallpapers < <(find "$WALLPAPER_DIR" -type f \( -name "*.jpg" -o -name "*.png" -o -name "*.webp" \) | sort)
+  mapfile -t wallpapers < <(find -L "$WALLPAPER_DIR" -type f \( -name "*.jpg" -o -name "*.png" -o -name "*.webp" \) | sort)
 
   # Check if we have wallpapers
   if [[ ${#wallpapers[@]} -eq 0 ]]; then

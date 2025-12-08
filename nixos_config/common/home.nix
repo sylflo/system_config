@@ -86,6 +86,12 @@
       source = ../../dotfiles/scripts/workspace-wallpaper.sh;
       executable = true;
     };
+
+    # Wallpapers
+    "Pictures/Wallpapers/Themes/Makoto_Shinkai" = {
+      source = ../../dotfiles/wallpapers;
+      recursive = true;
+    };
   };
 
   services.swaync = {
