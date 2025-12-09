@@ -12,16 +12,16 @@
     parallel
     poetry
     rustup
-    inputs.claude-code-nix.packages.${pkgs.system}.default
+    inputs.claude-code-nix.packages.${pkgs.stdenv.hostPlatform.system}.default
     # Personal applications
     mpv
     anki-bin
     spotify
     google-chrome
-    plex-media-player
+    plex-desktop
     eog
     # Wayland desktop tools
-    rofi-wayland
+    rofi
     swww
     waypaper
     grim
@@ -42,7 +42,7 @@
     enable = true;
     package = pkgs.hyprland;
     plugins = [
-      inputs.hyprland-virtual-desktops.packages.${pkgs.system}.virtual-desktops
+      inputs.hyprland-virtual-desktops.packages.${pkgs.stdenv.hostPlatform.system}.virtual-desktops
     ];
     extraConfig = ''
       source = ~/.config/hypr/hyprland-source.conf
@@ -206,9 +206,9 @@
 
   programs.git = {
     enable = true;
-    userName = "sylflo";
-    userEmail = "git@sylvain-chateau.com";
-    extraConfig = {
+    settings = {
+      user.name = "sylflo";
+      user.email = "git@sylvain-chateau.com";
       pull.rebase = true;
     };
   };
@@ -237,40 +237,36 @@
   };
 
   # Enable Zsh as the shell
-  programs.zsh = { enable = true; oh-my-zsh = {
+  programs.zsh = {
+    enable = true;
+    oh-my-zsh = {
       enable = true; # Install and manage Oh My Zsh
       plugins = [ "git" "z" "vi-mode" ]; # Add desired plugins
       theme = "agnoster"; # Set your desired theme
     };
+
+    # Custom zsh configuration
+    initContent = ''
+      # Custom .zshrc configuration
+      export PATH=$HOME/.local/bin:$HOME/.config/elenapan/bin:$PATH
+
+      # Use a widely supported terminal type to avoid "Error opening terminal: alacritty" on SSH
+      export TERM=xterm-256color
+
+      # Enable aliases
+      alias ll='ls -la'
+      alias gs='git status'
+
+      # Auto-start Hyprland on TTY1
+      if [ -z "$WAYLAND_DISPLAY" ] && [ "$XDG_VTNR" -eq 1 ]; then
+        exec Hyprland
+      fi
+
+      export ANDROID_HOME="$HOME/Android/Sdk"
+      export ANDROID_SDK_ROOT="$HOME/Android/Sdk"
+      export PATH="$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools"
+    '';
   };
-
-  # Manage your .zshrc configuration
-  home.file.".zshrc".text = ''
-    # Custom .zshrc configuration
-    export PATH=$HOME/.local/bin:$HOME/.config/elenapan/bin:$PATH
-
-    # Use a widely supported terminal type to avoid "Error opening terminal: alacritty" on SSH
-    export TERM=xterm-256color
-
-    # Enable aliases
-    alias ll='ls -la'
-    alias gs='git status'
-
-    # Auto-start Hyprland on TTY1
-    if [ -z "$WAYLAND_DISPLAY" ] && [ "$XDG_VTNR" -eq 1 ]; then
-      exec Hyprland
-    fi
-
-    # Source oh-my-zsh
-    if [ -f $HOME/.oh-my-zsh/oh-my-zsh.sh ]; then
-      source $HOME/.oh-my-zsh/oh-my-zsh.sh
-    fi
-
-
-    export ANDROID_HOME="$HOME/Android/Sdk"
-    export ANDROID_SDK_ROOT="$HOME/Android/Sdk"
-    export PATH="$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools"
-  '';
 
   # This value determines the home Manager release that your
   # configuration is compatible with. This helps avoid breakage
