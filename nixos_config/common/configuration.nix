@@ -79,6 +79,7 @@
     wget
     htop
     acpi
+    jq
     # Network diagnostic tools
     whois
     bind          # dig, nslookup, host
