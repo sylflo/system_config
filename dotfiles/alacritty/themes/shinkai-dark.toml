@@ -1,0 +1,58 @@
+# Makoto Shinkai Dark Theme - Night Sky Edition
+# Deep night sky with vibrant accent colors
+
+[colors.primary]
+background = "#0D1117"  # Deep night blue-black
+foreground = "#E8F4F8"  # Light sky blue-white text
+dim_foreground = "#A8C7D8"
+bright_foreground = "#FFFFFF"
+
+[colors.cursor]
+text = "#0D1117"
+cursor = "#73B9FF"  # Bright Shinkai blue
+
+[colors.vi_mode_cursor]
+text = "#0D1117"
+cursor = "#9D8FFF"  # Bright Shinkai purple
+
+[colors.search.matches]
+foreground = "#0D1117"
+background = "#FFB347"  # Shinkai orange
+
+[colors.search.focused_match]
+foreground = "#FFFFFF"
+background = "#E94B7C"  # Shinkai pink
+
+[colors.selection]
+text = "#FFFFFF"
+background = "#2B5278"  # Deep sky blue
+
+[colors.normal]
+black   = "#1A2332"    # Very dark blue
+red     = "#FF6B9D"    # Bright pink
+green   = "#5FE8DE"    # Bright teal
+yellow  = "#FFC670"    # Bright orange
+blue    = "#73B9FF"    # Bright sky blue
+magenta = "#9D8FFF"    # Bright purple
+cyan    = "#A8D5E8"    # Light sky blue
+white   = "#E8F4F8"    # Light blue-white
+
+[colors.bright]
+black   = "#3D5A80"    # Medium blue-grey
+red     = "#FFB3D9"    # Very bright pink
+green   = "#7FFFD4"    # Aquamarine
+yellow  = "#FFD700"    # Gold
+blue    = "#87CEEB"    # Sky blue
+magenta = "#C5A3FF"    # Light purple
+cyan    = "#B0E0E6"    # Powder blue
+white   = "#FFFFFF"    # Pure white
+
+[colors.dim]
+black   = "#0A0E14"
+red     = "#C73D65"
+green   = "#3EB0A8"
+yellow  = "#E89C2E"
+blue    = "#4A85C0"
+magenta = "#6350CC"
+cyan    = "#6FB0D0"
+white   = "#8DA8B8"

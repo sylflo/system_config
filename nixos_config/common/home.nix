@@ -82,11 +82,21 @@
     ".config/rofi/config.rasi".source = ../../dotfiles/rofi/config.rasi;
     ".config/rofi/themes/shinkai.rasi".source = ../../dotfiles/rofi/themes/shinkai.rasi;
 
+    # Alacritty configuration with theme switching support
+    ".config/alacritty/alacritty.toml".source = ../../dotfiles/alacritty/alacritty-base.toml;
+    ".config/alacritty/themes/shinkai-dark.toml".source = ../../dotfiles/alacritty/themes/shinkai-dark.toml;
+    ".config/alacritty/themes/shinkai-light.toml".source = ../../dotfiles/alacritty/themes/shinkai-light.toml;
+    ".config/alacritty/themes/shinkai-current.toml".source = ../../dotfiles/alacritty/themes/shinkai-dark.toml;  # Default to dark
+
     # Scripts
     ".local/bin/start_steam_sunshine.sh".source = ../../dotfiles/scripts/start_steam_sunshine.sh;
     ".local/bin/shutdown_steam_sunshine.sh".source = ../../dotfiles/scripts/shutdown_steam_sunshine.sh;
     ".local/bin/workspace-wallpaper.sh" = {
       source = ../../dotfiles/scripts/workspace-wallpaper.sh;
+      executable = true;
+    };
+    ".local/bin/alacritty-theme-switch.sh" = {
+      source = ../../dotfiles/scripts/alacritty-theme-switch.sh;
       executable = true;
     };
 
@@ -225,165 +235,10 @@
     ];
   };
 
-  # Alacritty terminal - Makoto Shinkai aesthetic
+  # Alacritty terminal - Makoto Shinkai aesthetic with theme switching
   programs.alacritty = {
     enable = true;
-    settings = {
-      # Environment variables for tmux compatibility
-      env = {
-        TERM = "xterm-256color";
-      };
-
-      # Window settings - Shinkai aesthetic
-      window = {
-        opacity = 0.90;  # 90% opacity for subtle blur effect
-        padding = {
-          x = 12;
-          y = 12;
-        };
-        decorations = "full";
-        dynamic_padding = false;
-      };
-
-      # Scrolling
-      scrolling = {
-        history = 10000;
-        multiplier = 3;
-      };
-
-      # Font configuration - Clean programming font
-      # Switch between "Fira Code" or "Hack" - both are excellent!
-      font = {
-        normal = {
-          family = "Fira Code";
-          style = "Regular";
-        };
-        bold = {
-          family = "Fira Code";
-          style = "Bold";
-        };
-        italic = {
-          family = "Fira Code";
-          style = "Italic";
-        };
-        bold_italic = {
-          family = "Fira Code";
-          style = "Bold Italic";
-        };
-        size = 11.0;
-        offset = {
-          x = 0;
-          y = 0;
-        };
-      };
-
-      # Cursor
-      cursor = {
-        style = {
-          shape = "Block";
-          blinking = "On";
-        };
-        blink_interval = 750;
-      };
-
-      # Makoto Shinkai Dark Color Scheme - Night Sky Edition
-      colors = {
-        # Primary colors - deep night sky with vibrant text
-        primary = {
-          background = "#0D1117";  # Deep night blue-black
-          foreground = "#E8F4F8";  # Light sky blue-white text
-          dim_foreground = "#A8C7D8";
-          bright_foreground = "#FFFFFF";
-        };
-
-        # Cursor colors - bright accent blue
-        cursor = {
-          text = "#0D1117";
-          cursor = "#73B9FF";  # Bright Shinkai blue
-        };
-
-        # Vi mode cursor
-        vi_mode_cursor = {
-          text = "#0D1117";
-          cursor = "#9D8FFF";  # Bright Shinkai purple
-        };
-
-        # Search colors
-        search = {
-          matches = {
-            foreground = "#0D1117";
-            background = "#FFB347";  # Shinkai orange
-          };
-          focused_match = {
-            foreground = "#FFFFFF";
-            background = "#E94B7C";  # Shinkai pink
-          };
-        };
-
-        # Selection colors - sky blue accent
-        selection = {
-          text = "#FFFFFF";
-          background = "#2B5278";  # Deep sky blue (darker than Rofi for readability)
-        };
-
-        # Normal colors - Dark Shinkai palette
-        normal = {
-          black   = "#1A2332";    # Very dark blue
-          red     = "#FF6B9D";    # Bright pink
-          green   = "#5FE8DE";    # Bright teal
-          yellow  = "#FFC670";    # Bright orange
-          blue    = "#73B9FF";    # Bright sky blue
-          magenta = "#9D8FFF";    # Bright purple
-          cyan    = "#A8D5E8";    # Light sky blue
-          white   = "#E8F4F8";    # Light blue-white
-        };
-
-        # Bright colors - Extra vibrant for emphasis
-        bright = {
-          black   = "#3D5A80";    # Medium blue-grey
-          red     = "#FFB3D9";    # Very bright pink
-          green   = "#7FFFD4";    # Aquamarine
-          yellow  = "#FFD700";    # Gold
-          blue    = "#87CEEB";    # Sky blue
-          magenta = "#C5A3FF";    # Light purple
-          cyan    = "#B0E0E6";    # Powder blue
-          white   = "#FFFFFF";    # Pure white
-        };
-
-        # Dim colors - Subtle variants
-        dim = {
-          black   = "#0A0E14";
-          red     = "#C73D65";
-          green   = "#3EB0A8";
-          yellow  = "#E89C2E";
-          blue    = "#4A85C0";
-          magenta = "#6350CC";
-          cyan    = "#6FB0D0";
-          white   = "#8DA8B8";
-        };
-      };
-
-      # Bell
-      bell = {
-        animation = "EaseOutExpo";
-        duration = 200;
-        color = "#FFB347";  # Shinkai orange
-      };
-
-      # Mouse bindings for tmux compatibility
-      mouse = {
-        hide_when_typing = true;
-      };
-
-      # Key bindings (tmux-friendly)
-      keyboard.bindings = [
-        { key = "V"; mods = "Control|Shift"; action = "Paste"; }
-        { key = "C"; mods = "Control|Shift"; action = "Copy"; }
-        { key = "Key0"; mods = "Control"; action = "ResetFontSize"; }
-        { key = "Plus"; mods = "Control"; action = "IncreaseFontSize"; }
-        { key = "Minus"; mods = "Control"; action = "DecreaseFontSize"; }
-      ];
-    };
+    # Config is managed via TOML files for easier theme switching
   };
 
   # Enable Zsh as the shell

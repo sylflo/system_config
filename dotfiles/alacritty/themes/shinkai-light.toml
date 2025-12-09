@@ -1,0 +1,58 @@
+# Makoto Shinkai Light Theme - Day Sky Edition
+# Bright sky colors with vibrant accents, matching Rofi theme
+
+[colors.primary]
+background = "#F5FBFF"  # Very light sky blue-white
+foreground = "#2B3E50"  # Dark blue-grey text
+dim_foreground = "#415A77"
+bright_foreground = "#1A2634"
+
+[colors.cursor]
+text = "#F5FBFF"
+cursor = "#5B9FD8"  # Shinkai accent blue
+
+[colors.vi_mode_cursor]
+text = "#F5FBFF"
+cursor = "#7B68EE"  # Shinkai purple
+
+[colors.search.matches]
+foreground = "#1A2634"
+background = "#FFB347"  # Shinkai orange
+
+[colors.search.focused_match]
+foreground = "#FFFFFF"
+background = "#E94B7C"  # Shinkai pink
+
+[colors.selection]
+text = "#1A2634"
+background = "#A8D5E8"  # Light sky blue (matching Rofi)
+
+[colors.normal]
+black   = "#2B3E50"    # Dark blue-grey
+red     = "#E94B7C"    # Shinkai pink
+green   = "#2D9A8C"    # Teal (darker for readability)
+yellow  = "#D68F2E"    # Orange (darker for readability)
+blue    = "#5B9FD8"    # Shinkai blue
+magenta = "#7B68EE"    # Shinkai purple
+cyan    = "#4CA5BA"    # Cyan (darker for readability)
+white   = "#415A77"    # Medium blue-grey
+
+[colors.bright]
+black   = "#415A77"    # Lighter blue-grey
+red     = "#FF6B9D"    # Brighter pink
+green   = "#3EB0A8"    # Bright teal
+yellow  = "#FFB347"    # Bright orange
+blue    = "#73B9FF"    # Bright sky blue
+magenta = "#9D8FFF"    # Bright purple
+cyan    = "#87CEEB"    # Sky blue
+white   = "#1A2634"    # Very dark (for emphasis)
+
+[colors.dim]
+black   = "#6B7F95"
+red     = "#C73D65"
+green   = "#247A6E"
+yellow  = "#B87625"
+blue    = "#4A85C0"
+magenta = "#6350CC"
+cyan    = "#3D8A9A"
+white   = "#8DA8B8"
