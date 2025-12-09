@@ -1,5 +1,8 @@
 { lib, inputs, config, pkgs, ... }:
 {
+  imports = [
+    inputs.spicetify-nix.homeManagerModules.default
+  ];
 
   home.username = "sylflo";
   home.homeDirectory = "/home/sylflo";
@@ -19,7 +22,7 @@
     # Personal applications
     mpv
     anki-bin
-    spotify
+    # spotify - managed by spicetify
     google-chrome
     plex-desktop
     eog
@@ -86,7 +89,7 @@
     ".config/alacritty/alacritty.toml".source = ../../dotfiles/alacritty/alacritty-base.toml;
     ".config/alacritty/themes/shinkai-dark.toml".source = ../../dotfiles/alacritty/themes/shinkai-dark.toml;
     ".config/alacritty/themes/shinkai-light.toml".source = ../../dotfiles/alacritty/themes/shinkai-light.toml;
-    ".config/alacritty/themes/shinkai-current.toml".source = ../../dotfiles/alacritty/themes/shinkai-dark.toml;  # Default to dark
+    # shinkai-current.toml is managed by alacritty-theme-switch.sh script (symlink)
 
     # Scripts
     ".local/bin/start_steam_sunshine.sh".source = ../../dotfiles/scripts/start_steam_sunshine.sh;
@@ -239,6 +242,34 @@
   programs.alacritty = {
     enable = true;
     # Config is managed via TOML files for easier theme switching
+  };
+
+  # Spicetify - Testing with PINK Shinkai theme
+  programs.spicetify = let
+    spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.system};
+  in {
+    enable = true;
+
+    # Custom Shinkai-Dark theme (with PINK background for testing)
+    theme = {
+      name = "Shinkai-Dark";
+      src = ../../dotfiles/spicetify/Themes/Shinkai-Dark;
+      appendName = true;
+      injectCss = true;
+      replaceColors = true;
+      overwriteAssets = true;
+      sidebarConfig = true;
+    };
+
+    colorScheme = "shinkai-dark";
+
+    # Enable useful extensions
+    enabledExtensions = with spicePkgs.extensions; [
+      shuffle
+      adblock
+      hidePodcasts
+      keyboardShortcut
+    ];
   };
 
   # Enable Zsh as the shell

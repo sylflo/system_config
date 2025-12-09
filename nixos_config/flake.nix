@@ -19,9 +19,10 @@
       url = "github:sadjow/claude-code-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    spicetify-nix.url = "github:Gerg-L/spicetify-nix";
    };
 
-  outputs = { self, nixpkgs, home-manager, hyprland-virtual-desktops, claude-code-nix, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, hyprland-virtual-desktops, claude-code-nix, spicetify-nix, ... }@inputs:
     let
       mkSystem = { hostname, homeConfig }:
         nixpkgs.lib.nixosSystem {
