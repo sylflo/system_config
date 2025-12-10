@@ -51,11 +51,6 @@ blinking = "On"
 [cursor]
 blink_interval = 750
 
-[bell]
-animation = "EaseOutExpo"
-duration = 200
-color = "#FFB347"
-
 [mouse]
 hide_when_typing = true
 
