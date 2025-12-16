@@ -18,6 +18,8 @@
     parallel
     poetry
     rustup
+    terraform
+    opentofu
     inputs.claude-code-nix.packages.${pkgs.stdenv.hostPlatform.system}.default
     # Personal applications
     mpv
