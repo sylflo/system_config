@@ -1,0 +1,1026 @@
+/*
+ * Makoto Shinkai Theme for Spicetify
+ * Inspired by the dreamy, atmospheric visuals of Makoto Shinkai's films
+ *
+ * Features:
+ * - Smooth, cinematic animations
+ * - Gradient effects inspired by Shinkai's signature sky scenes
+ * - Rounded corners and soft shadows for depth
+ * - Clean, breathable layouts
+ */
+
+/* ===== ROOT VARIABLES & GRADIENTS ===== */
+
+.starrynight-bg-container {
+  position: fixed;
+  z-index: 0;
+  pointer-events: none;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background-color: transparent;
+}
+
+
+:root {
+    --gradient-colors: var(--spice-gradienttop), var(--spice-gradientbottom);
+    --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-cinematic: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    --border-radius: 12px;
+    --border-radius-small: 8px;
+    --shadow-soft: 0 4px 12px rgba(43, 62, 80, 0.08);
+    --shadow-medium: 0 8px 24px rgba(43, 62, 80, 0.12);
+    --shadow-strong: 0 12px 32px rgba(43, 62, 80, 0.16);
+}
+
+/* ===== SMOOTH SCROLLBAR ===== */
+.os-scrollbar {
+    --os-handle-border-radius: 16px !important;
+    --os-size: 8px !important;
+}
+
+.os-scrollbar-handle {
+    background: var(--spice-button) !important;
+    transition: var(--transition-smooth);
+}
+
+.os-scrollbar-handle:hover {
+    background: var(--spice-button-active) !important;
+}
+
+/* ===== MAIN LAYOUT ===== */
+.Root__top-container {
+    background: linear-gradient(180deg, var(--gradient-colors));
+    overflow: hidden;
+}
+
+.Root__main-view {
+    background-color: transparent !important;
+    padding: 16px;
+}
+
+.Root__nav-bar {
+    background: var(--spice-sidebar);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+/* ===== SIDEBAR ===== */
+.main-yourLibraryX-libraryContainer {
+    background: transparent !important;
+}
+
+.main-navBar-navBar {
+    background-image: linear-gradient(var(--gradient-colors));
+    border-radius: var(--border-radius-small);
+    padding: 8px;
+}
+
+.main-navBar-navBarLink {
+    border-radius: var(--border-radius-small);
+    color: var(--spice-text);
+    transition: var(--transition-smooth);
+    padding: 12px 16px;
+    margin: 4px 0;
+}
+
+.main-navBar-navBarLink:hover {
+    background-color: var(--spice-card-hover);
+    transform: translateX(4px);
+}
+
+.main-navBar-navBarLink.active {
+    background-color: var(--spice-highlight);
+    font-weight: 600;
+}
+
+/* ===== CARDS & ALBUM GRID ===== */
+.main-card-card {
+    background: var(--spice-card);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-soft);
+    transition: var(--transition-smooth);
+    overflow: hidden;
+}
+
+.main-card-card:hover {
+    background: var(--spice-card-hover);
+    box-shadow: var(--shadow-medium);
+    transform: translateY(-4px) scale(1.02);
+}
+
+.main-cardImage-imageWrapper {
+    border-radius: var(--border-radius-small);
+    overflow: hidden;
+}
+
+.main-cardImage-image {
+    transition: var(--transition-smooth);
+}
+
+.main-card-card:hover .main-cardImage-image {
+    transform: scale(1.05);
+}
+
+/* Soft shadow on album covers */
+.main-cardImage-imageWrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    box-shadow: inset 0 -40px 40px -20px rgba(0, 0, 0, 0.1);
+    pointer-events: none;
+    border-radius: var(--border-radius-small);
+}
+
+/* ===== BUTTONS ===== */
+button,
+.Button-module__button___hf2qg {
+    border-radius: var(--border-radius-small) !important;
+    transition: var(--transition-smooth) !important;
+    font-weight: 500;
+}
+
+button:hover:not(:disabled),
+.Button-module__button___hf2qg:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-soft);
+}
+
+button:active:not(:disabled),
+.Button-module__button___hf2qg:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+/* Play button with gradient */
+.main-playButton-PlayButton,
+.main-playPauseButton-button {
+    background: linear-gradient(135deg, var(--spice-button), var(--spice-button-active)) !important;
+    border-radius: 50% !important;
+    transition: var(--transition-cinematic) !important;
+    box-shadow: var(--shadow-soft);
+}
+
+.main-playButton-PlayButton:hover,
+.main-playPauseButton-button:hover {
+    box-shadow: var(--shadow-medium);
+    transform: scale(1.08);
+}
+
+/* ===== TRACK LIST ===== */
+.main-trackList-trackListRow {
+    border-radius: var(--border-radius-small);
+    transition: var(--transition-smooth);
+    margin: 2px 0;
+}
+
+.main-trackList-trackListRow:hover {
+    background-color: var(--spice-card-hover);
+    transform: translateX(4px);
+}
+
+.main-trackList-trackListRow.main-trackList-active {
+    background-color: var(--spice-highlight);
+}
+
+/* Track list header */
+.main-trackList-trackListHeaderStuck.main-trackList-trackListHeader {
+    background: var(--spice-main);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 2px 8px rgba(43, 62, 80, 0.06);
+}
+
+/* ===== NOW PLAYING BAR ===== */
+.Root__now-playing-bar {
+    background: linear-gradient(135deg, var(--gradient-colors));
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+    padding: 16px;
+    box-shadow: var(--shadow-strong);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+.main-nowPlayingBar-container {
+    display: flex;
+    gap: 16px;
+}
+
+/* Album art in now playing - soft shadow and rounded */
+.main-coverSlotCollapsed-container img,
+.main-nowPlayingWidget-coverArt img {
+    border-radius: var(--border-radius-small);
+    box-shadow: var(--shadow-medium);
+    transition: var(--transition-smooth);
+}
+
+.main-coverSlotCollapsed-container:hover img,
+.main-nowPlayingWidget-coverArt:hover img {
+    box-shadow: var(--shadow-strong);
+    transform: scale(1.02);
+}
+
+/* ===== PROGRESS BAR ===== */
+/* Beautiful gradient progress bar */
+.playback-bar {
+    height: 8px !important;
+    border-radius: 4px;
+}
+
+.playback-progressbar {
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.playback-progressbar__progress-track {
+    background: linear-gradient(90deg,
+        var(--spice-button),
+        var(--spice-button-active),
+        var(--spice-misc)
+    ) !important;
+    border-radius: 4px;
+    transition: var(--transition-smooth);
+}
+
+.playback-progressbar__slider {
+    width: 12px;
+    height: 12px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    transition: var(--transition-smooth);
+}
+
+.playback-progressbar:hover .playback-progressbar__slider {
+    transform: scale(1.2);
+}
+
+/* Volume bar */
+.volume-bar__slider-container {
+    border-radius: 4px;
+}
+
+.volume-bar__slider {
+    background: linear-gradient(90deg,
+        var(--spice-button),
+        var(--spice-button-active)
+    ) !important;
+    border-radius: 4px;
+}
+
+/* ===== SEARCH & INPUT FIELDS ===== */
+.main-search-searchbar,
+input[type="text"],
+input[type="search"] {
+    background: var(--spice-card) !important;
+    border: 2px solid transparent !important;
+    border-radius: var(--border-radius-small) !important;
+    transition: var(--transition-smooth) !important;
+    padding: 12px 16px !important;
+}
+
+.main-search-searchbar:focus,
+input[type="text"]:focus,
+input[type="search"]:focus {
+    border-color: var(--spice-button-active) !important;
+    box-shadow: 0 0 0 3px rgba(91, 159, 216, 0.1) !important;
+    outline: none !important;
+}
+
+.main-search-searchbar::placeholder,
+input::placeholder {
+    color: var(--spice-subtext);
+    opacity: 0.6;
+}
+
+/* ===== CONTEXT MENUS & DROPDOWNS ===== */
+.main-contextMenu-menu,
+.main-userWidget-dropDownMenu {
+    background: var(--spice-card) !important;
+    border-radius: var(--border-radius) !important;
+    box-shadow: var(--shadow-strong) !important;
+    padding: 8px !important;
+    border: none !important;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+.main-contextMenu-menuItemButton,
+.main-userWidget-dropDownMenuItemButton {
+    border-radius: var(--border-radius-small);
+    color: var(--spice-text);
+    transition: var(--transition-smooth);
+    padding: 10px 12px;
+    margin: 2px 0;
+}
+
+.main-contextMenu-menuItemButton:hover,
+.main-userWidget-dropDownMenuItemButton:hover {
+    background-color: var(--spice-card-hover);
+    transform: translateX(4px);
+}
+
+/* ===== TOP BAR ===== */
+.main-topBar-background {
+    background: var(--spice-main) !important;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+.main-topBar-overlay {
+    background: transparent !important;
+}
+
+/* ===== ENTITY HEADERS (Artist/Album pages) ===== */
+.main-entityHeader-background {
+    background: var(--spice-main) !important;
+}
+
+.main-entityHeader-backgroundColor {
+    background: linear-gradient(180deg, var(--gradient-colors)) !important;
+    opacity: 0.6;
+}
+
+.main-entityHeader-overlay {
+    background: linear-gradient(
+        180deg,
+        transparent 0%,
+        var(--spice-main) 100%
+    ) !important;
+}
+
+.main-actionBarBackground-background {
+    background: var(--spice-main) !important;
+    background-image: none !important;
+}
+
+/* ===== NOTIFICATIONS ===== */
+.main-notification-container {
+    background: var(--spice-notification) !important;
+    border-radius: var(--border-radius) !important;
+    box-shadow: var(--shadow-strong) !important;
+    border: none !important;
+}
+
+.main-notificationError-container {
+    background: var(--spice-notification-error) !important;
+}
+
+/* ===== LIBRARY & PLAYLISTS ===== */
+.main-rootlist-rootlistItem {
+    border-radius: var(--border-radius-small);
+    transition: var(--transition-smooth);
+    margin: 2px 0;
+}
+
+.main-rootlist-rootlistItem:hover {
+    background-color: var(--spice-card-hover);
+}
+
+.main-yourLibraryX-iconOnly {
+    border-radius: var(--border-radius-small);
+    transition: var(--transition-smooth);
+}
+
+.main-yourLibraryX-iconOnly:hover {
+    background-color: var(--spice-card-hover);
+    transform: scale(1.05);
+}
+
+/* ===== HOME SHORTCUTS ===== */
+.view-homeShortcutsGrid-shortcut {
+    background: var(--spice-card) !important;
+    border-radius: var(--border-radius) !important;
+    box-shadow: var(--shadow-soft) !important;
+    transition: var(--transition-smooth) !important;
+}
+
+.view-homeShortcutsGrid-shortcut:hover {
+    box-shadow: var(--shadow-medium) !important;
+    transform: translateY(-2px) scale(1.02) !important;
+}
+
+/* ===== ARTIST/PLAYLIST CARDS ===== */
+.main-gridContainer-gridContainer {
+    gap: 16px;
+}
+
+/* ===== LYRICS ===== */
+.lyrics-lyrics-background {
+    background: var(--spice-main) !important;
+    border-radius: var(--border-radius);
+}
+
+.lyrics-lyrics-contentContainer {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+/* ===== RIGHT SIDEBAR (Friend Activity, etc.) ===== */
+.Root__right-sidebar {
+    background: linear-gradient(180deg, var(--gradient-colors));
+    border-radius: var(--border-radius) 0 0 0;
+    box-shadow: var(--shadow-soft);
+}
+
+.main-buddyFeed-container {
+    background: transparent !important;
+}
+
+/* ===== REMOVE UNWANTED BACKGROUNDS ===== */
+.main-home-homeHeader,
+.marketplace-header,
+.main-yourLibraryX-entryPoints,
+.playlist-playlist-playlistContent,
+.playlist-playlist-actionBarBackground-background {
+    background: transparent !important;
+    background-image: none !important;
+}
+
+/* ===== SMOOTH ANIMATIONS ===== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+    100% {
+        background-position: 1000px 0;
+    }
+}
+
+/* Fade in animation for cards */
+.main-card-card {
+    animation: fadeIn 0.4s ease-out;
+}
+
+/* ===== GLASSMORPHISM EFFECTS ===== */
+.main-topBar-container,
+.main-navBar-navBar,
+.Root__now-playing-bar {
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+
+/* ===== RESPONSIVE ADJUSTMENTS ===== */
+@media (max-width: 1200px) {
+    :root {
+        --border-radius: 10px;
+        --border-radius-small: 6px;
+    }
+}
+
+/* ===== PLAYBACK CONTROL BUTTONS ===== */
+.player-controls__buttons {
+    gap: 12px;
+}
+
+.player-controls__buttons button {
+    transition: var(--transition-smooth);
+}
+
+.player-controls__buttons button:hover {
+    color: var(--spice-button-active);
+    transform: scale(1.1);
+}
+
+/* ===== MARKETPLACE (if using Spicetify Marketplace) ===== */
+.marketplace-tabBar {
+    background: var(--spice-card);
+    border-radius: var(--border-radius);
+}
+
+.marketplace-tabBar-active {
+    background: var(--spice-button-active) !important;
+}
+
+/* ===== ACCESSIBILITY - FOCUS STATES ===== */
+*:focus-visible {
+    outline: 2px solid var(--spice-button-active) !important;
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* ===== GENRE PILLS ===== */
+.main-tag-container {
+    background: var(--spice-highlight) !important;
+    border-radius: 20px;
+    padding: 6px 12px;
+    transition: var(--transition-smooth);
+}
+
+.main-tag-container:hover {
+    background: var(--spice-button) !important;
+    transform: scale(1.05);
+}
+
+/* ===== ENHANCED BUTTON STYLING ===== */
+.encore-dark-theme .encore-bright-accent-set,
+.encore-light-theme .encore-bright-accent-set {
+    --background-base: var(--spice-button);
+    --background-highlight: var(--spice-button-active);
+    --background-press: var(--spice-selected-row);
+}
+
+/* ===== FINAL POLISH ===== */
+/* Ensure all transitions are smooth */
+* {
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Remove any harsh borders */
+.main-card-card,
+.main-trackList-trackListRow,
+button {
+    border: none !important;
+}
+
+/* Ensure proper text rendering */
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+/* ===== STAR ANIMATIONS ===== */
+@keyframes twinkle1 {
+  0% {
+    box-shadow: 0px 0px 8px 2px var(--spice-star-glow);
+  }
+
+  20% {
+    box-shadow: 0px 0px -8px 2px var(--spice-star-glow);
+  }
+
+  40% {
+    box-shadow: 0px 0px -8px 2px var(--spice-star-glow);
+  }
+
+  60% {
+    box-shadow: 0px 0px -8px 2px var(--spice-star-glow);
+  }
+
+  80% {
+    box-shadow: 0px 0px 8px 2px var(--spice-star-glow);
+  }
+
+  100% {
+    box-shadow: 0px 0px 8px 2px var(--spice-star-glow);
+  }
+}
+
+@keyframes twinkle2 {
+  0% {
+    box-shadow: 0px 0px 8px 2px var(--spice-star-glow);
+  }
+
+  20% {
+    box-shadow: 0px 0px 8px 2px var(--spice-star-glow);
+  }
+
+  40% {
+    box-shadow: 0px 0px -8px 2px var(--spice-star-glow);
+  }
+
+  60% {
+    box-shadow: 0px 0px -8px 2px var(--spice-star-glow);
+  }
+
+  80% {
+    box-shadow: 0px 0px -8px 2px var(--spice-star-glow);
+  }
+
+  100% {
+    box-shadow: 0px 0px 8px 2px var(--spice-star-glow);
+  }
+}
+
+@keyframes twinkle3 {
+  0% {
+    box-shadow: 0px 0px -8px 2px var(--spice-star-glow);
+  }
+
+  20% {
+    box-shadow: 0px 0px 8px 2px var(--spice-star-glow);
+  }
+
+  40% {
+    box-shadow: 0px 0px 8px 2px var(--spice-star-glow);
+  }
+
+  60% {
+    box-shadow: 0px 0px 8px 2px var(--spice-star-glow);
+  }
+
+  80% {
+    box-shadow: 0px 0px -8px 2px var(--spice-star-glow);
+  }
+
+  100% {
+    box-shadow: 0px 0px -8px 2px var(--spice-star-glow);
+  }
+}
+
+@keyframes twinkle4 {
+  0% {
+    box-shadow: 0px 0px -8px 2px var(--spice-star-glow);
+  }
+
+  20% {
+    box-shadow: 0px 0px -8px 2px var(--spice-star-glow);
+  }
+
+  40% {
+    box-shadow: 0px 0px 8px 2px var(--spice-star-glow);
+  }
+
+  60% {
+    box-shadow: 0px 0px 8px 2px var(--spice-star-glow);
+  }
+
+  80% {
+    box-shadow: 0px 0px 8px 2px var(--spice-star-glow);
+  }
+
+  100% {
+    box-shadow: 0px 0px -8px 2px var(--spice-star-glow);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/*
+Pure CSS Shooting Star Animation Effect Copyright (c) 2021 by Delroy Prithvi (https://codepen.io/delroyprithvi/pen/LYyJROR)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+.shootingstar {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--spice-shooting-star);
+  border-radius: 50%;
+  animation: animate 3s linear;
+  left: initial;
+  z-index: -1;
+}
+
+.shootingstar::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 300px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--spice-shooting-star), transparent);
+}
+
+@keyframes animate {
+  0% {
+    transform: rotate(315deg) translateX(0);
+    opacity: 1;
+  }
+
+  70% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: rotate(315deg) translateX(-1500px);
+    opacity: 0;
+  }
+}
+
+
+/* ===== MAKOTO SHINKAI ATMOSPHERIC EFFECTS ===== */
+
+
+/* Floating Light Particles - Dust motes effect (brighter, whiter) */
+.light-particle {
+  position: absolute;
+  background: radial-gradient(circle,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 0.6) 30%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  filter: blur(1px);
+  animation: floatUp linear infinite;
+  pointer-events: none;
+  box-shadow: 0 0 4px rgba(255, 255, 255, 0.8);
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.7;
+  }
+  90% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(-100vh) translateX(calc(sin(1) * 50px));
+    opacity: 0;
+  }
+}
+
+/* Falling Sakura Petals - Cherry Blossom */
+.falling-petal {
+  position: absolute;
+  /* Sakura petal gradient - soft pink with lighter center */
+  background: radial-gradient(ellipse at 30% 30%,
+    rgba(255, 255, 255, 0.9) 0%,
+    var(--sakura-color, #FFB7C5) 40%,
+    var(--sakura-color, #FFB7C5) 100%
+  );
+  /* Sakura petal shape - heart-like with notch */
+  border-radius: 50% 0 50% 50%;
+  /* Soft blur for delicate look */
+  filter: blur(0.3px);
+  /* Combined falling animation with built-in sway */
+  animation: sakuraFallWithSway linear infinite;
+  pointer-events: none;
+  /* Soft shadow for depth */
+  box-shadow: 0 2px 6px rgba(255, 182, 193, 0.4),
+              inset -2px -2px 4px rgba(255, 255, 255, 0.5);
+  /* Pink outline for definition */
+  outline: 0.5px solid rgba(255, 182, 193, 0.3);
+  /* Subtle inner glow */
+  position: relative;
+}
+
+/* Add petal texture with pseudo-element */
+.falling-petal::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 60%;
+  height: 80%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(
+    transparent 0%,
+    rgba(255, 182, 193, 0.2) 50%,
+    transparent 100%
+  );
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+/* Combined sakura animation - Step 4: Fine-tuned with smooth, natural motion */
+@keyframes sakuraFallWithSway {
+  0% {
+    transform: translateY(0) translateX(0) rotate(var(--start-rotation, 0deg));
+    opacity: 0;
+  }
+  5% {
+    opacity: 0.6;
+  }
+  10% {
+    opacity: 0.9;
+    transform: translateY(12vh) translateX(calc(var(--drift-offset, 0) * 0.1 - 5px)) rotate(calc(var(--start-rotation, 0deg) + 72deg - 3deg));
+  }
+  25% {
+    transform: translateY(30vh) translateX(calc(var(--drift-offset, 0) * 0.25 - 20px)) rotate(calc(var(--start-rotation, 0deg) + 180deg - 8deg));
+  }
+  37.5% {
+    transform: translateY(45vh) translateX(calc(var(--drift-offset, 0) * 0.375)) rotate(calc(var(--start-rotation, 0deg) + 270deg - 4deg));
+  }
+  50% {
+    transform: translateY(60vh) translateX(calc(var(--drift-offset, 0) * 0.5 + 20px)) rotate(calc(var(--start-rotation, 0deg) + 360deg));
+  }
+  62.5% {
+    transform: translateY(75vh) translateX(calc(var(--drift-offset, 0) * 0.625)) rotate(calc(var(--start-rotation, 0deg) + 450deg + 4deg));
+  }
+  75% {
+    transform: translateY(90vh) translateX(calc(var(--drift-offset, 0) * 0.75 - 20px)) rotate(calc(var(--start-rotation, 0deg) + 540deg + 8deg));
+  }
+  87.5% {
+    transform: translateY(105vh) translateX(calc(var(--drift-offset, 0) * 0.875 - 5px)) rotate(calc(var(--start-rotation, 0deg) + 630deg + 3deg));
+  }
+  92% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(120vh) translateX(var(--drift-offset, 0)) rotate(calc(var(--start-rotation, 0deg) + 720deg));
+    opacity: 0;
+  }
+}
+
+/* ===== SETTINGS UI - SHINKAI THEMED ===== */
+
+/* Settings Button - Fixed position floating button */
+.shinkai-settings-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 9999;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--spice-button), var(--spice-button-active));
+  border: none;
+  color: var(--spice-text);
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: var(--shadow-strong);
+  transition: var(--transition-smooth);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.shinkai-settings-btn:hover {
+  transform: scale(1.1) rotate(90deg);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* Settings Modal - Full screen overlay */
+.shinkai-settings-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.shinkai-settings-modal.shinkai-modal-open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Settings Content Panel */
+.shinkai-settings-content {
+  background: linear-gradient(135deg,
+    var(--spice-card) 0%,
+    var(--spice-main-elevated) 100%
+  );
+  border-radius: var(--border-radius);
+  padding: 32px;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: var(--shadow-strong);
+  border: 2px solid var(--spice-button);
+  animation: modalSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes modalSlideIn {
+  0% {
+    transform: translateY(-50px) scale(0.9);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+.shinkai-settings-content h2 {
+  margin: 0 0 8px 0;
+  color: var(--spice-text);
+  font-size: 28px;
+  font-weight: 600;
+  text-align: center;
+  background: linear-gradient(135deg, var(--spice-button), var(--spice-button-active));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.shinkai-settings-subtitle {
+  margin: 0 0 24px 0;
+  color: var(--spice-subtext);
+  font-size: 14px;
+  text-align: center;
+  opacity: 0.8;
+}
+
+/* Toggle Options Container */
+.shinkai-settings-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+/* Individual Toggle */
+.shinkai-toggle {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  background: var(--spice-card);
+  border-radius: var(--border-radius-small);
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  border: 2px solid transparent;
+}
+
+.shinkai-toggle:hover {
+  background: var(--spice-card-hover);
+  border-color: var(--spice-button);
+  transform: translateX(4px);
+}
+
+.shinkai-toggle input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  margin-right: 16px;
+  cursor: pointer;
+  accent-color: var(--spice-button-active);
+  flex-shrink: 0;
+}
+
+.shinkai-toggle-label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.shinkai-toggle-title {
+  color: var(--spice-text);
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.shinkai-toggle-desc {
+  color: var(--spice-subtext);
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+/* Action Buttons */
+.shinkai-settings-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.shinkai-btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: var(--border-radius-small);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.shinkai-btn-primary {
+  background: linear-gradient(135deg, var(--spice-button), var(--spice-button-active));
+  color: var(--spice-text);
+}
+
+.shinkai-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-medium);
+}
+
+.shinkai-btn-secondary {
+  background: var(--spice-card-hover);
+  color: var(--spice-text);
+}
+
+.shinkai-btn-secondary:hover {
+  background: var(--spice-highlight);
+}

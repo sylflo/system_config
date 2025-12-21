@@ -254,16 +254,22 @@
 
     # Custom Shinkai-Dark theme (with PINK background for testing)
     theme = {
-      name = "Shinkai-Dark";
-      src = ../../dotfiles/spicetify/Themes/Shinkai-Dark;
+      #name = "Shinkai-Dark";
+      name = "MakotoShinkai";
+     # src = ../../dotfiles/spicetify/Themes/Makoto-Shinkai;
+      src = ../../dotfiles/spicetify/Themes/MakotoShinkai;
       appendName = true;
       injectCss = true;
+      injectThemeJs = true;
       replaceColors = true;
       overwriteAssets = true;
-      sidebarConfig = true;
+      sidebarConmvfig = true;
+      homeConfig = true;
+      additonalCss = "";
     };
 
-    colorScheme = "shinkai-dark";
+    #colorScheme = "Shinkai-Light";
+    colorScheme = "Shinkai-Dark";
 
     # Enable useful extensions
     enabledExtensions = with spicePkgs.extensions; [
