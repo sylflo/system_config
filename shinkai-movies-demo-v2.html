@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Makoto Shinkai - Film Moments (Dark & Light)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', sans-serif;
+        }
+
+        /* Wallpaper background */
+        .wallpaper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            transition: opacity 2s ease-in-out;
+        }
+
+        /* Overlay for better text readability */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            transition: background 0.8s ease-in-out;
+        }
+
+        /* Dark theme overlay */
+        body.theme-dark .overlay {
+            background: linear-gradient(
+                135deg,
+                rgba(26, 35, 50, 0.7) 0%,
+                rgba(43, 62, 80, 0.4) 50%,
+                rgba(26, 35, 50, 0.6) 100%
+            );
+        }
+
+        /* Light theme overlay */
+        body.theme-light .overlay {
+            background: linear-gradient(
+                135deg,
+                rgba(232, 244, 248, 0.6) 0%,
+                rgba(255, 255, 255, 0.4) 50%,
+                rgba(200, 230, 245, 0.5) 100%
+            );
+        }
+
+        /* Floating particles */
+        .particles {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            border-radius: 50%;
+            animation: float 12s infinite;
+            transition: background 0.5s ease;
+        }
+
+        body.theme-dark .particle {
+            background: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+        }
+
+        body.theme-light .particle {
+            background: rgba(43, 62, 80, 0.3);
+            box-shadow: 0 0 8px rgba(43, 62, 80, 0.2);
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(110vh) translateX(0);
+                opacity: 0;
+            }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% {
+                transform: translateY(-10vh) translateX(50px);
+                opacity: 0;
+            }
+        }
+
+        /* Main container */
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            padding: 60px;
+        }
+
+        /* Movie title */
+        .movie-title {
+            text-align: center;
+            margin-bottom: 80px;
+            animation: fadeSlideIn 1.5s ease-out;
+        }
+
+        .title-english {
+            font-size: 16px;
+            font-weight: 300;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            transition: all 0.8s ease;
+        }
+
+        body.theme-dark .title-english {
+            color: rgba(232, 244, 248, 0.6);
+            text-shadow: 0 2px 15px rgba(0, 0, 0, 0.8);
+        }
+
+        body.theme-light .title-english {
+            color: rgba(43, 62, 80, 0.7);
+            text-shadow: 0 2px 15px rgba(255, 255, 255, 0.8);
+        }
+
+        .title-japanese {
+            font-size: 42px;
+            font-weight: 300;
+            letter-spacing: 8px;
+            transition: all 0.8s ease;
+        }
+
+        body.theme-dark .title-japanese {
+            color: rgba(232, 244, 248, 0.95);
+            text-shadow:
+                0 0 30px rgba(255, 255, 255, 0.2),
+                0 4px 20px rgba(0, 0, 0, 0.9);
+        }
+
+        body.theme-light .title-japanese {
+            color: rgba(43, 62, 80, 1.0);
+            text-shadow:
+                0 0 30px rgba(255, 255, 255, 0.5),
+                0 4px 20px rgba(255, 255, 255, 0.8);
+        }
+
+        /* Quote section */
+        .quote-section {
+            max-width: 900px;
+            text-align: center;
+            animation: fadeSlideIn 1.5s ease-out 0.5s backwards;
+        }
+
+        .quote {
+            font-size: 32px;
+            line-height: 1.8;
+            font-weight: 300;
+            margin-bottom: 30px;
+            font-style: italic;
+            transition: all 0.8s ease;
+        }
+
+        body.theme-dark .quote {
+            color: rgba(232, 244, 248, 0.95);
+            text-shadow:
+                0 2px 20px rgba(0, 0, 0, 0.9),
+                0 4px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        body.theme-light .quote {
+            color: rgba(43, 62, 80, 0.95);
+            text-shadow:
+                0 2px 20px rgba(255, 255, 255, 0.9),
+                0 4px 40px rgba(255, 255, 255, 0.6);
+        }
+
+        .quote-japanese {
+            font-size: 20px;
+            letter-spacing: 2px;
+            font-style: normal;
+            transition: all 0.8s ease;
+        }
+
+        body.theme-dark .quote-japanese {
+            color: rgba(168, 213, 232, 0.7);
+            text-shadow: 0 2px 15px rgba(0, 0, 0, 0.8);
+        }
+
+        body.theme-light .quote-japanese {
+            color: rgba(65, 90, 119, 0.8);
+            text-shadow: 0 2px 15px rgba(255, 255, 255, 0.8);
+        }
+
+        /* Time display */
+        .time-display {
+            position: fixed;
+            top: 50px;
+            left: 50px;
+            z-index: 20;
+            animation: fadeSlideIn 1.5s ease-out 1s backwards;
+        }
+
+        .time {
+            font-size: 72px;
+            font-weight: 100;
+            letter-spacing: 4px;
+            font-variant-numeric: tabular-nums;
+            transition: all 0.8s ease;
+        }
+
+        body.theme-dark .time {
+            color: rgba(232, 244, 248, 0.9);
+            text-shadow:
+                0 0 20px rgba(255, 255, 255, 0.3),
+                0 2px 30px rgba(0, 0, 0, 0.9);
+        }
+
+        body.theme-light .time {
+            color: rgba(43, 62, 80, 1.0);
+            text-shadow:
+                0 0 20px rgba(255, 255, 255, 0.5),
+                0 2px 30px rgba(255, 255, 255, 0.8);
+        }
+
+        .date {
+            font-size: 14px;
+            letter-spacing: 2px;
+            margin-top: 8px;
+            transition: all 0.8s ease;
+        }
+
+        body.theme-dark .date {
+            color: rgba(168, 213, 232, 0.6);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+        }
+
+        body.theme-light .date {
+            color: rgba(65, 90, 119, 0.8);
+            text-shadow: 0 2px 10px rgba(255, 255, 255, 0.8);
+        }
+
+        /* Input field */
+        .input-container {
+            margin-top: 60px;
+            animation: fadeSlideIn 1.5s ease-out 1.5s backwards;
+        }
+
+        .input-field {
+            width: 500px;
+            padding: 20px 35px;
+            border: 2px solid;
+            border-radius: 30px;
+            font-size: 16px;
+            text-align: center;
+            outline: none;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(30px);
+        }
+
+        body.theme-dark .input-field {
+            background: rgba(43, 62, 80, 0.5);
+            border-color: rgba(91, 159, 216, 0.5);
+            color: rgba(232, 244, 248, 0.9);
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        body.theme-light .input-field {
+            background: rgba(255, 255, 255, 0.7);
+            border-color: rgba(135, 206, 235, 0.8);
+            color: rgba(43, 62, 80, 0.9);
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        }
+
+        body.theme-dark .input-field:focus {
+            border-color: rgba(91, 159, 216, 0.8);
+            background: rgba(43, 62, 80, 0.7);
+            box-shadow:
+                0 8px 40px rgba(0, 0, 0, 0.5),
+                0 0 40px rgba(91, 159, 216, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+
+        body.theme-light .input-field:focus {
+            border-color: rgba(135, 206, 235, 1.0);
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow:
+                0 8px 40px rgba(0, 0, 0, 0.3),
+                0 0 40px rgba(135, 206, 235, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            transform: translateY(-3px);
+        }
+
+        .input-field::placeholder {
+            font-style: italic;
+            transition: color 0.8s ease;
+        }
+
+        body.theme-dark .input-field::placeholder {
+            color: rgba(168, 213, 232, 0.4);
+        }
+
+        body.theme-light .input-field::placeholder {
+            color: rgba(107, 127, 149, 0.5);
+        }
+
+        /* Navigation */
+        .navigation {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 20;
+            animation: fadeSlideIn 1.5s ease-out 2s backwards;
+        }
+
+        .nav-btn {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        body.theme-dark .nav-btn {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        body.theme-light .nav-btn {
+            background: rgba(43, 62, 80, 0.3);
+            border-color: rgba(43, 62, 80, 0.5);
+        }
+
+        body.theme-dark .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        body.theme-light .nav-btn:hover {
+            background: rgba(43, 62, 80, 0.5);
+        }
+
+        body.theme-dark .nav-btn.active {
+            background: rgba(91, 159, 216, 0.9);
+            border-color: rgba(91, 159, 216, 1.0);
+            box-shadow: 0 0 20px rgba(91, 159, 216, 0.6);
+        }
+
+        body.theme-light .nav-btn.active {
+            background: rgba(91, 159, 216, 0.9);
+            border-color: rgba(91, 159, 216, 1.0);
+            box-shadow: 0 0 20px rgba(91, 159, 216, 0.4);
+        }
+
+        .nav-btn:hover {
+            transform: scale(1.2);
+        }
+
+        /* Scene info */
+        .scene-info {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            text-align: right;
+            z-index: 20;
+            animation: fadeSlideIn 1.5s ease-out 2s backwards;
+        }
+
+        .scene-number {
+            font-size: 14px;
+            letter-spacing: 2px;
+            transition: color 0.8s ease;
+        }
+
+        body.theme-dark .scene-number {
+            color: rgba(232, 244, 248, 0.5);
+        }
+
+        body.theme-light .scene-number {
+            color: rgba(43, 62, 80, 0.6);
+        }
+
+        .scene-progress {
+            width: 150px;
+            height: 2px;
+            margin-top: 10px;
+            border-radius: 2px;
+            overflow: hidden;
+            transition: background 0.8s ease;
+        }
+
+        body.theme-dark .scene-progress {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        body.theme-light .scene-progress {
+            background: rgba(43, 62, 80, 0.2);
+        }
+
+        .scene-progress-fill {
+            height: 100%;
+            width: 0%;
+            transition: all 0.3s ease;
+        }
+
+        body.theme-dark .scene-progress-fill {
+            background: rgba(91, 159, 216, 0.8);
+            box-shadow: 0 0 10px rgba(91, 159, 216, 0.5);
+        }
+
+        body.theme-light .scene-progress-fill {
+            background: rgba(91, 159, 216, 0.9);
+            box-shadow: 0 0 10px rgba(91, 159, 216, 0.3);
+        }
+
+        /* Controls */
+        .controls {
+            position: fixed;
+            top: 40px;
+            right: 40px;
+            display: flex;
+            gap: 15px;
+            z-index: 20;
+        }
+
+        .control-btn {
+            padding: 12px 24px;
+            border: 1px solid;
+            border-radius: 25px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(20px);
+            letter-spacing: 1px;
+        }
+
+        body.theme-dark .control-btn {
+            background: rgba(43, 62, 80, 0.6);
+            border-color: rgba(91, 159, 216, 0.3);
+            color: rgba(232, 244, 248, 0.8);
+        }
+
+        body.theme-light .control-btn {
+            background: rgba(255, 255, 255, 0.6);
+            border-color: rgba(135, 206, 235, 0.5);
+            color: rgba(43, 62, 80, 0.8);
+        }
+
+        body.theme-dark .control-btn:hover {
+            background: rgba(43, 62, 80, 0.8);
+            border-color: rgba(91, 159, 216, 0.5);
+            color: white;
+        }
+
+        body.theme-light .control-btn:hover {
+            background: rgba(255, 255, 255, 0.8);
+            border-color: rgba(135, 206, 235, 0.8);
+            color: rgba(43, 62, 80, 1.0);
+        }
+
+        .control-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Theme indicator */
+        .theme-indicator {
+            position: fixed;
+            top: 100px;
+            right: 40px;
+            z-index: 20;
+            font-size: 12px;
+            letter-spacing: 2px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            backdrop-filter: blur(20px);
+            transition: all 0.8s ease;
+        }
+
+        body.theme-dark .theme-indicator {
+            background: rgba(43, 62, 80, 0.4);
+            border: 1px solid rgba(91, 159, 216, 0.3);
+            color: rgba(232, 244, 248, 0.6);
+        }
+
+        body.theme-light .theme-indicator {
+            background: rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(135, 206, 235, 0.5);
+            color: rgba(43, 62, 80, 0.6);
+        }
+
+        @keyframes fadeSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body class="theme-dark">
+    <!-- Wallpaper layers -->
+    <div class="wallpaper" id="wallpaper"></div>
+    <div class="overlay"></div>
+    <div class="particles" id="particles"></div>
+
+    <!-- Time display -->
+    <div class="time-display">
+        <div class="time" id="time">17:46</div>
+        <div class="date" id="date">December 24, 2025</div>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls">
+        <button class="control-btn" onclick="previousScene()">← Previous</button>
+        <button class="control-btn" onclick="nextScene()">Next →</button>
+        <button class="control-btn" onclick="toggleAutoPlay()" id="autoPlayBtn">⏸ Pause</button>
+        <button class="control-btn" onclick="toggleTheme()" id="themeBtn">☀ Light</button>
+    </div>
+
+    <!-- Theme indicator -->
+    <div class="theme-indicator" id="themeIndicator">DARK THEME</div>
+
+    <!-- Main content -->
+    <div class="container">
+        <div class="movie-title">
+            <div class="title-english" id="titleEnglish">YOUR NAME</div>
+            <div class="title-japanese" id="titleJapanese">君の名は。</div>
+        </div>
+
+        <div class="quote-section">
+            <div class="quote" id="quote">
+                "Once in a while when I wake up, I find myself crying."
+            </div>
+            <div class="quote-japanese" id="quoteJapanese">
+                たまに、目が覚めると泣いている
+            </div>
+        </div>
+
+        <div class="input-container">
+            <input type="password" class="input-field" placeholder="Enter to remember...">
+        </div>
+    </div>
+
+    <!-- Navigation dots -->
+    <div class="navigation" id="navigation"></div>
+
+    <!-- Scene info -->
+    <div class="scene-info">
+        <div class="scene-number" id="sceneNumber">SCENE 1 / 5</div>
+        <div class="scene-progress">
+            <div class="scene-progress-fill" id="progressFill"></div>
+        </div>
+    </div>
+
+    <script>
+        // Movie scenes data
+        const scenes = [
+            {
+                titleEn: "YOUR NAME",
+                titleJp: "君の名は。",
+                quote: "Once in a while when I wake up, I find myself crying.",
+                quoteJp: "たまに、目が覚めると泣いている",
+                wallpaper: "dotfiles/wallpapers/938805-3840x2160-desktop-4k-makoto-shinkai-wallpaper-photo.jpg"
+            },
+            {
+                titleEn: "5 CENTIMETERS PER SECOND",
+                titleJp: "秒速5センチメートル",
+                quote: "The speed at which the cherry blossoms fall... five centimeters per second.",
+                quoteJp: "桜の花びらの落ちるスピードだよ。秒速5センチメートル。",
+                wallpaper: "dotfiles/wallpapers/938831-3840x2160-desktop-4k-makoto-shinkai-background.jpg"
+            },
+            {
+                titleEn: "WEATHERING WITH YOU",
+                titleJp: "天気の子",
+                quote: "The world is a cruel place, but it's also very beautiful.",
+                quoteJp: "世界は残酷だけど、それでもやっぱり美しい",
+                wallpaper: "dotfiles/wallpapers/938833-1920x1080-desktop-1080p-makoto-shinkai-wallpaper-photo.jpg"
+            },
+            {
+                titleEn: "THE GARDEN OF WORDS",
+                titleJp: "言の葉の庭",
+                quote: "The smell of the rain, the sound of the rain... I love everything about rain.",
+                quoteJp: "雨の匂い、雨の音、雨の全てが好きです",
+                wallpaper: "dotfiles/wallpapers/938846-1920x1080-desktop-full-hd-makoto-shinkai-wallpaper-image.jpg"
+            },
+            {
+                titleEn: "YOUR NAME",
+                titleJp: "君の名は。",
+                quote: "I'm searching for someone. For something.",
+                quoteJp: "ずっと誰かを、何かを、探している",
+                wallpaper: "dotfiles/wallpapers/938886-1920x1080-desktop-full-hd-makoto-shinkai-wallpaper.jpg"
+            }
+        ];
+
+        let currentScene = 0;
+        let autoPlay = true;
+        let autoPlayInterval;
+        let currentTheme = 'dark';
+
+        // Update time
+        function updateTime() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            document.getElementById('time').textContent = `${hours}:${minutes}`;
+
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('date').textContent = now.toLocaleDateString('en-US', options);
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        // Create particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 40; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 12 + 's';
+                particle.style.animationDuration = (10 + Math.random() * 8) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // Toggle theme
+        function toggleTheme() {
+            currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.body.className = 'theme-' + currentTheme;
+
+            const btn = document.getElementById('themeBtn');
+            const indicator = document.getElementById('themeIndicator');
+
+            if (currentTheme === 'dark') {
+                btn.textContent = '☀ Light';
+                indicator.textContent = 'DARK THEME';
+            } else {
+                btn.textContent = '🌙 Dark';
+                indicator.textContent = 'LIGHT THEME';
+            }
+        }
+
+        // Load scene
+        function loadScene(index) {
+            const scene = scenes[index];
+
+            const wallpaper = document.getElementById('wallpaper');
+            wallpaper.style.backgroundImage = `url('${scene.wallpaper}')`;
+
+            document.getElementById('titleEnglish').textContent = scene.titleEn;
+            document.getElementById('titleJapanese').textContent = scene.titleJp;
+            document.getElementById('quote').textContent = scene.quote;
+            document.getElementById('quoteJapanese').textContent = scene.quoteJp;
+
+            document.getElementById('sceneNumber').textContent = `SCENE ${index + 1} / ${scenes.length}`;
+            document.getElementById('progressFill').style.width = ((index + 1) / scenes.length * 100) + '%';
+
+            updateNavigationDots();
+            currentScene = index;
+        }
+
+        // Create navigation dots
+        function createNavigationDots() {
+            const nav = document.getElementById('navigation');
+            scenes.forEach((_, index) => {
+                const dot = document.createElement('div');
+                dot.className = 'nav-btn';
+                dot.onclick = () => {
+                    loadScene(index);
+                    resetAutoPlay();
+                };
+                nav.appendChild(dot);
+            });
+            updateNavigationDots();
+        }
+
+        // Update navigation dots
+        function updateNavigationDots() {
+            const dots = document.querySelectorAll('.nav-btn');
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentScene);
+            });
+        }
+
+        // Next scene
+        function nextScene() {
+            currentScene = (currentScene + 1) % scenes.length;
+            loadScene(currentScene);
+            resetAutoPlay();
+        }
+
+        // Previous scene
+        function previousScene() {
+            currentScene = (currentScene - 1 + scenes.length) % scenes.length;
+            loadScene(currentScene);
+            resetAutoPlay();
+        }
+
+        // Toggle auto play
+        function toggleAutoPlay() {
+            autoPlay = !autoPlay;
+            const btn = document.getElementById('autoPlayBtn');
+            btn.textContent = autoPlay ? '⏸ Pause' : '▶ Play';
+
+            if (autoPlay) {
+                startAutoPlay();
+            } else {
+                clearInterval(autoPlayInterval);
+            }
+        }
+
+        // Start auto play
+        function startAutoPlay() {
+            clearInterval(autoPlayInterval);
+            autoPlayInterval = setInterval(() => {
+                if (autoPlay) {
+                    nextScene();
+                }
+            }, 8000);
+        }
+
+        // Reset auto play timer
+        function resetAutoPlay() {
+            if (autoPlay) {
+                startAutoPlay();
+            }
+        }
+
+        // Initialize
+        createParticles();
+        createNavigationDots();
+        loadScene(0);
+        startAutoPlay();
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') {
+                nextScene();
+            } else if (e.key === 'ArrowLeft') {
+                previousScene();
+            } else if (e.key === ' ') {
+                e.preventDefault();
+                toggleAutoPlay();
+            } else if (e.key === 't' || e.key === 'T') {
+                toggleTheme();
+            }
+        });
+    </script>
+</body>
+</html>
