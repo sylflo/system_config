@@ -10,6 +10,7 @@
   home.packages = with pkgs; [
     # Fonts
     hack-font
+    noto-fonts-cjk-sans
     fira-code
     # Development tools
     neovim
