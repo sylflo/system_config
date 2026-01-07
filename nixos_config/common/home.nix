@@ -18,7 +18,12 @@
     python3
     parallel
     poetry
-    rustup
+    # Rust toolchain (native Nix packages)
+    cargo
+    rustc
+    rust-analyzer
+    clippy
+    rustfmt
     terraform
     opentofu
     inputs.claude-code-nix.packages.${pkgs.stdenv.hostPlatform.system}.default
