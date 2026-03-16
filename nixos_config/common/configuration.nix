@@ -50,6 +50,10 @@
     LC_TIME = "fr_FR.UTF-8";
   };
 
+  services.fwupd.enable = true;
+  #services.asusd.enable = true;
+  #programs.asusctl.enable = true;
+
   # Configure keymap in X11
   services.xserver.xkb = {
     layout = "us";

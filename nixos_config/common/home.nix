@@ -18,6 +18,8 @@
     python3
     parallel
     poetry
+    uv
+    ruff
     # Rust toolchain (native Nix packages)
     cargo
     rustc
@@ -243,6 +245,7 @@
     package = pkgs.vscodium;
     profiles.default.extensions = with pkgs.vscode-extensions; [
       dracula-theme.theme-dracula
+      #hashicorp.terraform
     ];
   };
 

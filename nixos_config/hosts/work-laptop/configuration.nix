@@ -30,11 +30,19 @@
     127.0.0.1 api-console.docker
     127.0.0.1 general-building.docker
     127.0.0.1 bigquery.docker
-    127.0.0.1 mpc-app.docker
-    127.0.0.1 gateway-app.docker
+    127.0.0.1 mpc-calculate_values.docker
+    127.0.0.1 gateway-dummy.docker
+    127.0.0.1 gateway-weather.docker
     127.0.0.1 report-energy.docker
+    127.0.0.1 report-comfort.docker
     127.0.0.1 general-equipment.docker
     127.0.0.1 frontend.docker
+    127.0.0.1 wattsense-mqtt_adapter.docker
+    127.0.0.1 prometheus.docker
+    127.0.0.1 alertmanager.docker
+    127.0.0.1 grafana.docker
+    127.0.0.1 node-exporter.docker
+    127.0.0.1 mqtt-broker.docker
   '';
 
   networking.hostName = "work-laptop";
