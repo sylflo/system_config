@@ -33,7 +33,6 @@
     mpv
     anki-bin
     # spotify - managed by spicetify
-    google-chrome
     plex-desktop
     eog
     # Wayland desktop tools
