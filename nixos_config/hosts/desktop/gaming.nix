@@ -20,13 +20,9 @@
         governor = "performance";
         governor_game = "performance";
       };
-      # GPU block is intentionally minimal: hardware.nvidia.open = true (open
-      # kernel module) does not expose GPUGraphicsClockOffset via nvidia-settings.
-      # apply_gpu_optimisations would fail noisily; nv_powermizer_mode = 1 is
-      # supported by the open module and forces Prefer Maximum Performance.
-      gpu = {
-        nv_powermizer_mode = 1;
-      };
+      # No gpu block: nv_powermizer_mode uses nvidia-settings via NV-CONTROL,
+      # which is unavailable with hardware.nvidia.open = true (open kernel module).
+      # The call would silently fail. Ampere defaults to full performance under load.
     };
   };
 
