@@ -50,7 +50,6 @@
     wireguard-tools
     ffmpeg
     vlc
-    pulseaudio
   ];
 
   wayland.windowManager.hyprland = {

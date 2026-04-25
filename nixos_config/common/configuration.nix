@@ -12,12 +12,14 @@
     experimental-features = [ "nix-command" "flakes" ];
     substituters = [
       "https://cache.nixos.org"
+      "https://nix-community.cachix.org"
       "https://hyprland.cachix.org"
       "https://claude-code-nix.cachix.org"
       "https://cuda-maintainers.cachix.org"
     ];
     trusted-public-keys = [
       "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCUSeDo="
       "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
       "claude-code-nix.cachix.org-1:KI4JymmW2ccQV02+s/ovZ1kOQvjXRiqZUYNF29K7EYc="
       "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E="
@@ -27,7 +29,6 @@
   services.fstrim.enable = true;
 
   virtualisation.docker.enable = true;
-  hardware.nvidia-container-toolkit.enable = true;
 
   nixpkgs.hostPlatform = "x86_64-linux";
 
@@ -147,25 +148,6 @@
     enable = true;
   };
 
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
   networking.firewall.enable = true;
 
   # This value determines the NixOS release from which the default

@@ -10,7 +10,7 @@
     ./gaming.nix
   ];
 
-  boot.kernelPackages = pkgs.linuxPackages_zen;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   powerManagement.cpuFreqGovernor = "performance";
 
@@ -100,6 +100,8 @@
   };
 
   networking.firewall.allowedTCPPorts = [ 22 ];
+
+  hardware.nvidia-container-toolkit.enable = true;
 
   services.ollama = {
     enable = true;
