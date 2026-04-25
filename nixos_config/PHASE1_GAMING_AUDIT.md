@@ -10,25 +10,7 @@
 
 ## Change list (each change is a single, reviewable unit)
 
-### Change 1 — Enable 32-bit graphics: DONE
-
-**File:** `hosts/desktop/hardware-configuration.nix` (current location of NVIDIA block; will move in Change 7)
-
-**What:** add one line.
-
-```nix
-hardware.graphics.enable = true;
-hardware.graphics.enable32Bit = true;     # NEW
-hardware.graphics.extraPackages = with pkgs; [ nvidia-vaapi-driver ];
-```
-
-**Why:** without this, 32-bit Wine/Proton prefixes can't load the GL/Vulkan ICDs. Many Steam/Proton games still use 32-bit binaries (especially older titles — Skyrim LE, Witcher 3 in some configurations). Almost certainly silently affecting you today.
-
-**Risk:** none. Pulls in 32-bit Mesa/NVIDIA libs. Disk cost ~hundreds of MB.
-
----
-
-### Change 2 — Add zram swap + sysctl tuning
+### Change 2 — Add zram swap + sysctl tuning: NOT NEEDED
 
 **File:** `common/configuration.nix` (this is a system-wide RAM-pressure mitigation; harmless on the laptops too, so it goes in common)
 
@@ -55,62 +37,8 @@ boot.kernel.sysctl = {
 
 ---
 
-### Change 3 — Configure gamemode properly
-
-**File:** `hosts/desktop/configuration.nix`
-
-**Replace:**
-```nix
-programs.gamemode.enable = true;
-```
-
-**With:**
-```nix
-programs.gamemode = {
-  enable = true;
-  settings = {
-    general = {
-      renice = 10;
-      softrealtime = "auto";
-    };
-    gpu = {
-      apply_gpu_optimisations = "accept-responsibility";
-      gpu_device = 0;
-      nv_powermizer_mode = 1;   # max performance while gaming
-    };
-  };
-};
-```
-
-**Why:** the bare `enable = true` runs the daemon but with conservative defaults. The settings above are what the gamemode docs recommend for actual benefit:
-- `renice = 10` — bump game process priority.
-- `softrealtime = "auto"` — let the scheduler treat the game as soft-RT when CPU has spare capacity.
-- `nv_powermizer_mode = 1` — forces the NVIDIA driver into "Prefer Maximum Performance" mode while the game runs, then restores on exit. Concrete benefit on a 3060.
-
-**Risk:** none. Settings are standard.
 
 ---
-
-### Change 4 — Add `capSysNice` to gamescope
-
-**File:** `hosts/desktop/configuration.nix`
-
-**Replace:**
-```nix
-programs.gamescope.enable = true;
-```
-
-**With:**
-```nix
-programs.gamescope = {
-  enable = true;
-  capSysNice = true;
-};
-```
-
-**Why:** without `capSysNice`, gamescope's binary doesn't have CAP_SYS_NICE, so its scheduler-priority and realtime-thread tricks silently no-op. With it, gamescope can actually deliver the latency-stability benefit it advertises.
-
-**Risk:** none. Just grants a capability to a single binary.
 
 ---
 

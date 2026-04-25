@@ -5,9 +5,10 @@
 { inputs, config, pkgs, ... }:
 
 {
-  nix.settings= {
-    cores = 2;
-    max-jobs = 1;
+  nix.settings = {
+    cores = 0;
+    max-jobs = "auto";
+    auto-optimise-store = true;
     experimental-features = [ "nix-command" "flakes" ];
     substituters = [
       "https://hyprland.cachix.org"
@@ -18,6 +19,8 @@
       "claude-code-nix.cachix.org-1:KI4JymmW2ccQV02+s/ovZ1kOQvjXRiqZUYNF29K7EYc="
     ];
   };
+
+  services.fstrim.enable = true;
 
   virtualisation.docker.enable = true;
   hardware.nvidia-container-toolkit.enable = true;

@@ -17,6 +17,8 @@
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
+  powerManagement.cpuFreqGovernor = "performance";
+
   networking.hostName = "desktop"; # Define your hostname.
   networking.interfaces.eno1.wakeOnLan.enable = true;
   boot.blacklistedKernelModules = [ "rtl8192ee" ];
@@ -57,14 +59,21 @@
         renice = 10;
         softrealtime = "auto";
       };
+      # GPU block is intentionally minimal: we run hardware.nvidia.open = true
+      # (open kernel module), which doesn't expose GPUGraphicsClockOffset via
+      # nvidia-settings. Setting apply_gpu_optimisations = "accept-responsibility"
+      # makes gamemode try to apply clock offsets and fail noisily. We keep
+      # nv_powermizer_mode = 1 (Prefer Maximum Performance) since that one
+      # attribute is supported by the open module.
       gpu = {
-        apply_gpu_optimisations = "accept-responsibility";
-        gpu_device = 0;
         nv_powermizer_mode = 1;
       };
     };
   };
-  programs.gamescope.enable = true;
+  programs.gamescope = {
+    enable = true;
+    capSysNice = true;
+  };
 
   services.sunshine = {
     enable = true;
