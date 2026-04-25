@@ -39,7 +39,8 @@
 
   hardware.graphics.enable = true;
   hardware.graphics.enable32Bit = true;
-  hardware.graphics.extraPackages = with pkgs; [ nvidia-vaapi-driver ];
+
+  nixpkgs.config.cudaSupport = true;
 
   hardware.nvidia = {
     modesetting.enable = true;
