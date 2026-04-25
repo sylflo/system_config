@@ -49,6 +49,9 @@
     localNetworkGameTransfers.openFirewall = false; # Open ports in the firewall for Steam Local Network Game Transfers
   };
 
+  programs.gamemode.enable = true;
+  programs.mangohud.enable = true;
+
   services.sunshine = {
     enable = true;
     autoStart = true;
