@@ -47,10 +47,10 @@
     remotePlay.openFirewall = false; # Open ports in the firewall for Steam Remote Play
     dedicatedServer.openFirewall = false; # Open ports in the firewall for Source Dedicated Server
     localNetworkGameTransfers.openFirewall = false; # Open ports in the firewall for Steam Local Network Game Transfers
+    extraCompatPackages = [ pkgs.proton-ge-bin ];
   };
 
   programs.gamemode.enable = true;
-  programs.mangohud.enable = true;
 
   services.sunshine = {
     enable = true;

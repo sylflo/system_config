@@ -71,6 +71,8 @@ in {
   };
 
   # Audio production tools
+  programs.mangohud.enable = true;
+
   home.packages = with pkgs; [
     ardour        # Professional DAW
     guitarix      # Guitar amp simulator and effects
