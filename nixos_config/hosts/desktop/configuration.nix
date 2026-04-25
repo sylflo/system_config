@@ -23,6 +23,10 @@
   boot.kernel.sysctl = {
     "vm.swappiness" = 10;
     "vm.vfs_cache_pressure" = 50;
+    # Reduce dirty page writeback thresholds — limits write stall spikes on the
+    # single NVMe when the kernel flushes accumulated dirty pages to disk.
+    "vm.dirty_background_ratio" = 5;
+    "vm.dirty_ratio" = 10;
   };
 
   networking.hostName = "desktop";
