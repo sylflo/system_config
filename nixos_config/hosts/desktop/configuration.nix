@@ -10,11 +10,6 @@
     ./gaming.nix
   ];
 
-  # NVIDIA-specific packages
-  environment.systemPackages = with pkgs; [
-    nvidia-modprobe
-  ];
-
   boot.kernelPackages = pkgs.linuxPackages_zen;
 
   powerManagement.cpuFreqGovernor = "performance";
