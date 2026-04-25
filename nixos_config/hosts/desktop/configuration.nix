@@ -23,6 +23,51 @@
   networking.interfaces.eno1.wakeOnLan.enable = true;
   boot.blacklistedKernelModules = [ "rtl8192ee" ];
 
+  #############
+  ## Nvidia ##
+  ###########
+
+  boot.initrd.kernelModules = [ "nvidia" "i915" "nvidia_modeset" "nvidia_uvm" "nvidia_drm" "i2c-dev" ];
+
+  services.xserver = {
+    enable = true;
+    videoDrivers = [ "nvidia" ];
+
+    displayManager.startx.enable = true;
+  };
+
+  services.getty.autologinUser = "sylflo";
+
+  # Enable hardware acceleration
+  hardware.graphics.enable = true;
+  hardware.graphics.enable32Bit = true;
+  hardware.graphics.extraPackages = with pkgs; [ nvidia-vaapi-driver ];
+
+  hardware.nvidia = {
+    # Modesetting is required.
+    modesetting.enable = true;
+
+    # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
+    # Enable this if you have graphical corruption issues or application crashes after waking
+    # up from sleep. This fixes it by saving the entire VRAM memory to /tmp/ instead
+    # of just the bare essentials.
+    powerManagement.enable = true;
+
+    # Fine-grained power management. Turns off GPU when not in use.
+    # Experimental and only works on modern Nvidia GPUs (Turing or newer).
+    powerManagement.finegrained = false;
+
+    # Use the NVidia open source kernel module (not to be confused with the
+    # independent third-party "nouveau" open source driver).
+    # Required for the RTX 3060 (Ampere) — stable on this generation.
+    open = true;
+
+    # Enable the Nvidia settings menu, accessible via `nvidia-settings`.
+    nvidiaSettings = true;
+
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
+  };
+
   services.udev.extraRules = ''
     KERNEL=="i2c-[0-9]*", GROUP="i2c", MODE="0660"
   '';
