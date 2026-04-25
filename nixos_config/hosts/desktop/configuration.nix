@@ -40,6 +40,10 @@
 
   boot.initrd.kernelModules = [ "nvidia" "nvidia_modeset" "nvidia_uvm" "nvidia_drm" "i2c-dev" ];
 
+  # Explicitly preserve VRAM across suspend/resume. powerManagement.enable sets
+  # this automatically for the proprietary module; belt-and-suspenders for open.
+  boot.kernelParams = [ "nvidia.NVreg_PreserveVideoMemoryAllocations=1" ];
+
   services.xserver = {
     enable = true;
     videoDrivers = [ "nvidia" ];
