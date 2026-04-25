@@ -64,8 +64,6 @@
   };
 
   services.fwupd.enable = true;
-  #services.asusd.enable = true;
-  #programs.asusctl.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
