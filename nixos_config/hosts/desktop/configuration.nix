@@ -39,6 +39,10 @@
 
   hardware.graphics.enable = true;
   hardware.graphics.enable32Bit = true;
+  hardware.graphics.extraPackages = with pkgs; [ nvidia-vaapi-driver ];
+
+  # Required for nvidia-vaapi-driver with the open kernel module
+  environment.sessionVariables.NVD_BACKEND = "direct";
 
   nixpkgs.config.cudaSupport = true;
 
