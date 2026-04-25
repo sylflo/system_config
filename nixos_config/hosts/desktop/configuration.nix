@@ -50,7 +50,20 @@
     extraCompatPackages = [ pkgs.proton-ge-bin ];
   };
 
-  programs.gamemode.enable = true;
+  programs.gamemode = {
+    enable = true;
+    settings = {
+      general = {
+        renice = 10;
+        softrealtime = "auto";
+      };
+      gpu = {
+        apply_gpu_optimisations = "accept-responsibility";
+        gpu_device = 0;
+        nv_powermizer_mode = 1;
+      };
+    };
+  };
   programs.gamescope.enable = true;
 
   services.sunshine = {

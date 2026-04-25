@@ -10,7 +10,7 @@
 
 ## Change list (each change is a single, reviewable unit)
 
-### Change 1 — Enable 32-bit graphics
+### Change 1 — Enable 32-bit graphics: DONE
 
 **File:** `hosts/desktop/hardware-configuration.nix` (current location of NVIDIA block; will move in Change 7)
 
