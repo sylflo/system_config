@@ -19,6 +19,17 @@
 
   powerManagement.cpuFreqGovernor = "performance";
 
+  zramSwap = {
+    enable = true;
+    algorithm = "zstd";
+    memoryPercent = 25;
+  };
+
+  boot.kernel.sysctl = {
+    "vm.swappiness" = 10;
+    "vm.vfs_cache_pressure" = 50;
+  };
+
   networking.hostName = "desktop";
   networking.interfaces.eno1.wakeOnLan.enable = true;
   boot.blacklistedKernelModules = [ "rtl8192ee" ];
