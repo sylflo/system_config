@@ -1,0 +1,285 @@
+# Phase 1 — Gaming Fixes (Desktop Host Only)
+
+**Scope:** `hosts/desktop/configuration.nix`, `hosts/desktop/hardware-configuration.nix`, `common/configuration.nix`. The work-laptop and personal-laptop hosts are not touched.
+
+**Out of scope (deferred to Phase 2):** removing X11 / `services.xserver`.
+
+**Hardware reminder:** Ryzen 5 3600, RTX 3060, 16 GB DDR4, NVMe ext4, single-GPU desktop, suspends regularly, plays solo AAA, streams to TV via Sunshine 90% of the time.
+
+---
+
+## Change list (each change is a single, reviewable unit)
+
+### Change 1 — Enable 32-bit graphics
+
+**File:** `hosts/desktop/hardware-configuration.nix` (current location of NVIDIA block; will move in Change 7)
+
+**What:** add one line.
+
+```nix
+hardware.graphics.enable = true;
+hardware.graphics.enable32Bit = true;     # NEW
+hardware.graphics.extraPackages = with pkgs; [ nvidia-vaapi-driver ];
+```
+
+**Why:** without this, 32-bit Wine/Proton prefixes can't load the GL/Vulkan ICDs. Many Steam/Proton games still use 32-bit binaries (especially older titles — Skyrim LE, Witcher 3 in some configurations). Almost certainly silently affecting you today.
+
+**Risk:** none. Pulls in 32-bit Mesa/NVIDIA libs. Disk cost ~hundreds of MB.
+
+---
+
+### Change 2 — Add zram swap + sysctl tuning
+
+**File:** `common/configuration.nix` (this is a system-wide RAM-pressure mitigation; harmless on the laptops too, so it goes in common)
+
+**What:** add a new block.
+
+```nix
+zramSwap = {
+  enable = true;
+  algorithm = "zstd";
+  memoryPercent = 50;     # ~8 GB compressed swap backed by RAM
+};
+
+boot.kernel.sysctl = {
+  "vm.swappiness" = 10;            # don't page out hot pages until necessary
+  "vm.vfs_cache_pressure" = 50;    # keep file cache around (helps game asset loads)
+};
+```
+
+**Why:** you have 16 GB and `swapDevices = [ ]`. Modern AAA + browser easily eats 14 GB. Without any swap, the kernel OOM-kills processes — and the OOM killer's choice is rarely the one you want. zram gives you ~8 GB allocation that compresses ~3:1 with zstd, so realistically ~20–24 GB effective memory under pressure, with no disk wear.
+
+**Why swappiness 10:** default 60 is tuned for servers. On a 16 GB gaming desktop, 10 keeps the kernel from preemptively swapping while you're playing.
+
+**Risk:** very low. zram is widely used and stable. If you hate it, removing it is one line.
+
+---
+
+### Change 3 — Configure gamemode properly
+
+**File:** `hosts/desktop/configuration.nix`
+
+**Replace:**
+```nix
+programs.gamemode.enable = true;
+```
+
+**With:**
+```nix
+programs.gamemode = {
+  enable = true;
+  settings = {
+    general = {
+      renice = 10;
+      softrealtime = "auto";
+    };
+    gpu = {
+      apply_gpu_optimisations = "accept-responsibility";
+      gpu_device = 0;
+      nv_powermizer_mode = 1;   # max performance while gaming
+    };
+  };
+};
+```
+
+**Why:** the bare `enable = true` runs the daemon but with conservative defaults. The settings above are what the gamemode docs recommend for actual benefit:
+- `renice = 10` — bump game process priority.
+- `softrealtime = "auto"` — let the scheduler treat the game as soft-RT when CPU has spare capacity.
+- `nv_powermizer_mode = 1` — forces the NVIDIA driver into "Prefer Maximum Performance" mode while the game runs, then restores on exit. Concrete benefit on a 3060.
+
+**Risk:** none. Settings are standard.
+
+---
+
+### Change 4 — Add `capSysNice` to gamescope
+
+**File:** `hosts/desktop/configuration.nix`
+
+**Replace:**
+```nix
+programs.gamescope.enable = true;
+```
+
+**With:**
+```nix
+programs.gamescope = {
+  enable = true;
+  capSysNice = true;
+};
+```
+
+**Why:** without `capSysNice`, gamescope's binary doesn't have CAP_SYS_NICE, so its scheduler-priority and realtime-thread tricks silently no-op. With it, gamescope can actually deliver the latency-stability benefit it advertises.
+
+**Risk:** none. Just grants a capability to a single binary.
+
+---
+
+### Change 5 — CPU governor
+
+**File:** `common/configuration.nix`
+
+**What:** add one line.
+
+```nix
+powerManagement.cpuFreqGovernor = "performance";
+```
+
+**Why:** on a desktop (no battery), pinning to `performance` keeps cores at high frequencies and avoids the small wakeup latency of `schedutil` ramp-up. You give up nothing — there's no battery to save.
+
+**Note on `amd_pstate=active`:** I considered recommending `boot.kernelParams = [ "amd_pstate=active" ]` for the Ryzen 3600, but I'm only ~80% sure it's a clear win on Zen 2 (it's documented as primarily benefiting Zen 3+). Skipping it for Phase 1 to keep risk near-zero. We can revisit if you want.
+
+**Risk:** none. Higher idle power draw; on a desktop, irrelevant.
+
+---
+
+### Change 6 — Filesystem & build hygiene
+
+**File:** `common/configuration.nix`
+
+**What:** add three settings; modify two.
+
+```nix
+services.fstrim.enable = true;
+
+nix.settings = {
+  cores = 0;                    # CHANGED: was 2 → 0 means "use all available"
+  max-jobs = "auto";            # CHANGED: was 1
+  auto-optimise-store = true;   # NEW
+  experimental-features = [ "nix-command" "flakes" ];
+  substituters = [
+    "https://hyprland.cachix.org"
+    "https://claude-code-nix.cachix.org"
+  ];
+  trusted-public-keys = [
+    "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
+    "claude-code-nix.cachix.org-1:KI4JymmW2ccQV02+s/ovZ1kOQvjXRiqZUYNF29K7EYc="
+  ];
+};
+```
+
+**Why:**
+- `services.fstrim.enable` — weekly TRIM on NVMe; basic SSD hygiene, you don't have it today.
+- `cores = 0, max-jobs = "auto"` — currently you're using `cores = 2, max-jobs = 1`, which throttles 6c/12t to ~17% during builds. This affects the laptops too, but they have plenty of cores; if it ever causes thermal issues there I can carve out a per-host override. Not a gaming fix, but you'll feel rebuild speed immediately.
+- `auto-optimise-store = true` — deduplicates the nix store, reduces disk usage over time.
+
+**Caveat — `cores` and `max-jobs` are shared:** these are in `common/configuration.nix` so they apply to all three hosts. If you want them desktop-only, say so and I'll move them to `hosts/desktop/configuration.nix`.
+
+**Risk:** very low.
+
+---
+
+### Change 7 — Move NVIDIA block out of `hardware-configuration.nix`
+
+**Files:** `hosts/desktop/hardware-configuration.nix` (remove), `hosts/desktop/configuration.nix` (add)
+
+**Why:** `hardware-configuration.nix` is generated by `nixos-generate-config` and warns "Do not modify this file" at the top. Re-running that tool (or restoring from backup) clobbers the NVIDIA setup. Driver config belongs in the host module.
+
+**What moves out of `hardware-configuration.nix`:**
+
+```nix
+# Lines that LEAVE hardware-configuration.nix:
+boot.initrd.kernelModules = [ "nvidia" "i915" "nvidia_modeset" "nvidia_uvm" "nvidia_drm" "i2c-dev" ];
+
+services.xserver = {
+  enable = true;
+  videoDrivers = [ "nvidia" ];
+  displayManager.startx.enable = true;
+};
+
+services.getty.autologinUser = "sylflo";
+
+hardware.graphics.enable = true;
+hardware.graphics.enable32Bit = true;
+hardware.graphics.extraPackages = with pkgs; [ nvidia-vaapi-driver ];
+
+hardware.nvidia = {
+  modesetting.enable = true;
+  powerManagement.enable = true;
+  powerManagement.finegrained = false;
+  open = true;
+  nvidiaSettings = true;
+  package = config.boot.kernelPackages.nvidiaPackages.stable;
+};
+```
+
+**What stays in `hardware-configuration.nix`** (the actually-hardware-detected stuff):
+- `imports = [ (modulesPath + ...) ]`
+- `boot.initrd.availableKernelModules`
+- `boot.extraModulePackages`
+- `fileSystems."/"` and `fileSystems."/boot"`
+- `swapDevices = [ ]`
+- `networking.useDHCP = lib.mkDefault true;`
+- `nixpkgs.hostPlatform = lib.mkDefault ...`
+- `hardware.cpu.amd.updateMicrocode = lib.mkDefault ...`
+
+**What gets dropped from `hardware-configuration.nix`:**
+- `hardware.bluetooth.enable = true;` and `hardware.bluetooth.powerOnBoot = true;` (already in `common/configuration.nix:39-40`, so this is duplicate dead code).
+
+**Risk:** moderate-low. The risk is purely "did I miss a line during the move?" — the resulting config should be functionally identical, just better organized. I'll show the full final files when you approve.
+
+---
+
+### Change 8 — Drop other dead code
+
+**File:** `common/configuration.nix`
+
+**Remove the commented laptop residue:**
+```nix
+#services.asusd.enable = true;
+#programs.asusctl.enable = true;
+```
+
+**Risk:** zero, it's commented out.
+
+---
+
+## Summary table — what each change costs and buys
+
+| # | Change | File | Effort | Likely user-visible benefit |
+|---|---|---|---|---|
+| 1 | `hardware.graphics.enable32Bit = true` | hw-config | 1 line | Fixes silently-broken 32-bit games |
+| 2 | zram + swappiness | common/config | ~10 lines | No more OOM kills under memory pressure |
+| 3 | gamemode settings | desktop/config | ~14 lines | NVIDIA Prefer Max Perf during games + renice |
+| 4 | gamescope `capSysNice` | desktop/config | 1 line | gamescope's scheduler tricks actually work |
+| 5 | `cpuFreqGovernor = "performance"` | common/config | 1 line | Cores stay at boost; no ramp-up latency |
+| 6 | fstrim, build cores, store optimise | common/config | ~5 lines | Faster rebuilds + SSD hygiene |
+| 7 | Move NVIDIA block to desktop config | both files | refactor | Survives `nixos-generate-config` regen |
+| 8 | Drop dead asusd lines | common/config | -2 lines | Cleanup |
+
+---
+
+## Order of application
+
+These are independent, but I'd recommend committing them as **two commits** for easy rollback:
+
+- **Commit A** — Changes 1, 2, 3, 4, 5, 6, 8 (pure additions/edits, no file restructure).
+- **Commit B** — Change 7 (the NVIDIA block move; bigger diff but should be a no-op functionally).
+
+If anything regresses after rebuild, `git revert` is straightforward.
+
+---
+
+## Test plan after rebuild
+
+In order, on the desktop:
+
+1. `sudo nixos-rebuild test --flake .#desktop` — confirms config evaluates and activates without switching the boot entry.
+2. `nvidia-smi` — confirms driver loaded.
+3. `glxinfo | grep "OpenGL renderer"` — confirms NVIDIA renderer (you may need `mesa-demos` installed).
+4. **Wayland session:** start Hyprland from TTY, confirm it comes up.
+5. **32-bit check:** launch any older Steam game (or a Proton game) and watch for ICD errors in the Steam launch console.
+6. **Sunshine streaming:** stream to TV, confirm it still works. **This is the riskiest user-facing thing in Phase 1** — if it breaks, the most likely culprit is the NVIDIA block move (Change 7), so revert Commit B first.
+7. **Memory pressure test:** `swapon --show` should show `/dev/zram0`. `cat /proc/sys/vm/swappiness` should show `10`.
+8. **gamemode check:** `gamemoded -t` runs the test suite. Launch a game, in another terminal `gamemoded -s` should show "gamemode is active".
+9. **Suspend/resume:** suspend the box, wake it, confirm graphics still work (this is why we're keeping `hardware.nvidia.powerManagement.enable = true`).
+
+---
+
+## Open questions / decisions for you
+
+1. **Build parallelism scope** — Change 6 sets `cores = 0` / `max-jobs = "auto"` in `common/configuration.nix`, so it applies to your laptops too. OK, or move to desktop-only?
+2. **`amd_pstate=active`** — skipped for safety (Zen 2, ~80% sure it helps). Want me to add it anyway, or leave it for a Phase 1.5?
+3. **Two commits vs. one?** I proposed splitting Change 7 into its own commit for revertability. Preference?
+4. **Anything you want to drop from this plan** before I start writing the diffs?
+
+Once you greenlight, I'll produce the actual file edits.

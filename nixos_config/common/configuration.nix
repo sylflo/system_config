@@ -19,10 +19,7 @@
     ];
   };
 
-  virtualisation.docker = {
-    enable = true;
-    enableNvidia = true;  # Enable NVIDIA GPU support in Docker
-  };
+  virtualisation.docker.enable = true;
   hardware.nvidia-container-toolkit.enable = true;
 
   nixpkgs.hostPlatform = "x86_64-linux";
