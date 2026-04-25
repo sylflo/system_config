@@ -117,7 +117,10 @@
   };
   programs.gamescope = {
     enable = true;
-    capSysNice = true;
+    capSysNice = false;
+    # capSysNice = true breaks Steam's bubblewrap sandbox (bwrap rejects
+    # processes with unexpected capabilities), preventing games from launching
+    # inside gamescope.
   };
 
   services.sunshine = {
