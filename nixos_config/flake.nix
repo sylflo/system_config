@@ -26,7 +26,6 @@
     let
       mkSystem = { hostname, homeConfig }:
         nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
           specialArgs = { inherit inputs; };
           modules = [
             ./common/configuration.nix

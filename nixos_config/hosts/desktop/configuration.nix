@@ -15,8 +15,11 @@
     nvidia-modprobe
   ];
 
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
   networking.hostName = "desktop"; # Define your hostname.
   networking.interfaces.eno1.wakeOnLan.enable = true;
+  boot.blacklistedKernelModules = [ "rtl8192ee" ];
 
   services.udev.extraRules = ''
     KERNEL=="i2c-[0-9]*", GROUP="i2c", MODE="0660"
@@ -88,5 +91,10 @@
 
   # Open SSH port in firewall
   networking.firewall.allowedTCPPorts = [ 22 ];
+
+ services.ollama = {
+  enable = true;
+  acceleration = "cuda";
+ };
 
 }

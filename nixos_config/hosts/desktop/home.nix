@@ -76,6 +76,7 @@ in {
     guitarix      # Guitar amp simulator and effects
     calf          # Audio plugins (effects, EQ, compressors)
     qjackctl      # JACK control GUI
+    opencode
   ];
 
 }

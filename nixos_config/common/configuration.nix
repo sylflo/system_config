@@ -19,11 +19,24 @@
     ];
   };
 
-  virtualisation.docker.enable = true;
+  virtualisation.docker = {
+    enable = true;
+    enableNvidia = true;  # Enable NVIDIA GPU support in Docker
+  };
+  hardware.nvidia-container-toolkit.enable = true;
+
+  nixpkgs.hostPlatform = "x86_64-linux";
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot.configurationLimit = 3;
   boot.loader.efi.canTouchEfiVariables = true;
+
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 7d";
+  };
 
   # Enable bluetooth
   hardware.bluetooth.enable = true; # enables support for Bluetooth
