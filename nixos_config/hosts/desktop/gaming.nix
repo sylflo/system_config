@@ -7,7 +7,6 @@
     dedicatedServer.openFirewall = false;
     localNetworkGameTransfers.openFirewall = false;
     extraCompatPackages = [ pkgs.proton-ge-bin ];
-    gamescopeSession.enable = true;
   };
 
   programs.gamemode = {
@@ -27,6 +26,11 @@
     };
   };
 
+  # gamescope is available for per-game use (Steam launch option: gamescope -- %command%)
+  # but NOT used for Big Picture streaming — running it nested under Hyprland
+  # (compositor-inside-compositor) caused shaking/judder artifacts. Sunshine
+  # captures the Hyprland display directly; Steam Big Picture runs as a plain
+  # Wayland window via start_steam_sunshine.sh.
   programs.gamescope = {
     enable = true;
     # capSysNice = true breaks Steam's bubblewrap sandbox (bwrap rejects
