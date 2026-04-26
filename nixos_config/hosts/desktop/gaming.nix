@@ -7,6 +7,7 @@
     dedicatedServer.openFirewall = false;
     localNetworkGameTransfers.openFirewall = false;
     extraCompatPackages = [ pkgs.proton-ge-bin ];
+    gamescopeSession.enable = true;
   };
 
   programs.gamemode = {
