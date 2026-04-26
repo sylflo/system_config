@@ -46,7 +46,6 @@
   services.xserver = {
     enable = true;
     videoDrivers = [ "nvidia" ];
-    displayManager.startx.enable = true;
   };
 
   services.getty.autologinUser = "sylflo";
