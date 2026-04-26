@@ -16,8 +16,5 @@
     google-cloud-sdk
   ];
 
-  # Work-laptop specific scripts
-  home.file = {
-    ".local/bin/hyprland-monitor-setup.sh".source = ../../../dotfiles/scripts/hyprland-monitor-setup.sh;
-  };
+
 }
